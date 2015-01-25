@@ -3,13 +3,19 @@
 var keyUpStamp = Date.now();
 var spacebarIsBeingPressed = false;
 
+$(document).ready(function(){
+
+});
+
 function showDetailBehindVideo(){
 
 	$("#mainVideo").addClass("transparentVideo");
+	$("#seek-bar").addClass("opaqueBar");
 }
 
 function hideDetailBehindVideo(){
 	$("#mainVideo").removeClass("transparentVideo");
+	$("#seek-bar").removeClass("opaqueBar");
 }
 
 function playOrPauseVideo(){
@@ -34,6 +40,7 @@ function playOrPauseVideo(){
 
 
 $(window).keydown(function(e){
+	e.preventDefault();
 	
 	var keyDownStamp = Date.now();
 
@@ -84,13 +91,6 @@ $(window).keyup(function(e){
 });
 
 
-$(window).keyup(function(e){
-	spacebarIsBeingPressed = false;
-	keyUpStamp = Date.now();
-	//console.log("keyup detected " + e.keyCode);
-	hideDetailBehindVideo();
-});
-
 //scrubber
 var video = document.getElementById("mainVideo");
 var videoDuration = video.duration;
@@ -104,6 +104,11 @@ $(document).ready(function(){
 	video.volume = 0;
 	$.each($(".audio"), function(i, v){
 		v.volume = 0.2;
+	});
+
+	$("#infoButton").hover(function(){
+		console.log("hover detected");
+		$("#infoButton").toggleClass("infoButtonHover");
 	});
 
 	var avatar1Lock = false, avatar2Lock = false, avatar3Lock = false, avatar4Lock = false;

@@ -1,3 +1,7 @@
+body {
+	margin: 0;
+}
+
 video {
 	position: absolute;
 	height: auto;
@@ -9,7 +13,7 @@ video {
 	opacity: 0.3;
 	height: 50px;
 	width: 50px;
-	margin: 20px 0;
+	margin: 20px;
 	border-radius: 50%;
 }
 
@@ -30,29 +34,49 @@ video {
 	opacity: 0.5;
 }
 
+
 #infoButton {
 	height: 44px;
 	width: 44px;
 	background-color: red;
 	position: absolute;
-	bottom: 5px;
-	right: 25px;
+	bottom: 45px;
+	right: 45px;
 	opacity: 0.3;
 }
 
-#infoButton:hover{
+#infoButton.infoButtonHover  {
 	opacity: 1.0;
 	width: 300px;
 	height: 100px;
-
-
-
-}
+}	
 
 #seek-bar{
-	width: 80%;
-	height: 400px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: -20%;
+	opacity: 0;
 }
+
+#seek-bar.opaqueBar {
+	opacity: 1.0; 
+}
+
+@media screen and (max-width: 600px){
+	#infoButton {
+		top: 25px;
+	}
+
+	.faceIcon {
+		height: 45px;
+		width: 45px;
+		margin: 12px;
+
+	}
+}
+
+
 
 
 
