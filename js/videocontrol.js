@@ -26,8 +26,8 @@ function playOrPauseVideo(){
 
 		theVideo.play();
 		$.each($(".audio"), function(i, v){
-		v.play();	
-	});
+			v.play();	
+		});
 	}
 }
 
@@ -55,7 +55,32 @@ $(window).keydown(function(e){
 			}	
 
 			}, 600);
+		
 		}	
+	
+
+
+
+	//console.log("keydown detected " + e.keyCode);
+	
+
+	//if keyup comes after less than one second
+
+		//wait one second
+		//check if last keyup stamp is after keydown stamp
+			//if not,this means user is holding and call showDetail
+		//else -- this is a tap, toggle play/pause
+
+	//if keyup doesn't come for more than one second, user is holding down the key. Launch detail view
+
+});
+
+
+$(window).keyup(function(e){
+	spacebarIsBeingPressed = false;
+	keyUpStamp = Date.now();
+	//console.log("keyup detected " + e.keyCode);
+	hideDetailBehindVideo();
 });
 
 
