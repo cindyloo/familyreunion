@@ -53,18 +53,22 @@ function doneEncoding( blob ) {
 }
 
 function toggleRecording( e ) {
-    if (e.classList.contains("recording")) {
+    if ($("div#recordingCircle").hasClass("recording")) {
         // stop recording
         audioRecorder.stop();
-        e.classList.remove("recording");
+        $("div#recordingCircle").removeClass("recording");
+		
         audioRecorder.getBuffers( gotBuffers );
+         video.pause();
     } else {
         // start recording
         if (!audioRecorder)
             return;
-        e.classList.add("recording");
+    	e.src = "";
+        $("div#recordingCircle").addClass("recording");
         audioRecorder.clear();
         audioRecorder.record();
+        video.play();
     }
 }
 

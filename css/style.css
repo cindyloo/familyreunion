@@ -1,22 +1,16 @@
-
 body {
 	margin: 0;
 }
 
 video {
 	position: absolute;
-	height: 100%;
+	height: auto;
 	width: 100%;
 }
 
 .faceIcon {
-	/*background-color: blue;*/
 	opacity: 0.5;
-	/*height: 70px;
-	width: 70px;*/
 	margin-bottom: 10px;
-	/*border-radius: 50%;*/
-	
 }
 
 #avatar_menu {
@@ -130,7 +124,9 @@ video {
 	background-repeat: none;
 }
 
+
 .faceIcon:hover, .faceIconLock{
+
 	opacity: 1.0;
 }
 
@@ -138,11 +134,13 @@ video {
 	height: 100%;
 	width: 100%;
 	position: absolute;
+	z-index: 100;
 }
 
 .transparentVideo {
 	opacity: 0.5;
 }
+
 
 #infoButton {
 	height: 50px;
@@ -162,9 +160,18 @@ video {
 	opacity: 1.0;
 }
 
+#infoButton.infoButtonHover  {
+	opacity: 1.0;
+	width: 300px;
+	height: 100px;
+}	
+
 #seek-bar{
-	width: 80%;
-	height: 400px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: -20%;
+	opacity: 0;
 }
 
 /*Jeff Added*/
@@ -269,4 +276,20 @@ video {
 	text-align: center;
 }
 
+#seek-bar.opaqueBar {
+	opacity: 1.0; 
+}
+
+@media screen and (max-width: 600px){
+	#infoButton {
+		top: 25px;
+	}
+
+	.faceIcon {
+		height: 45px;
+		width: 45px;
+		margin: 12px;
+
+	}
+}
 

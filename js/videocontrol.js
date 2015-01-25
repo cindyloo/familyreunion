@@ -19,13 +19,19 @@ $("#infoButton").mouseleave(function(){
 });
 	
 
+$(document).ready(function(){
+
+});
+
 function showDetailBehindVideo(){
 
 	$("#mainVideo").addClass("transparentVideo");
+	$("#seek-bar").addClass("opaqueBar");
 }
 
 function hideDetailBehindVideo(){
 	$("#mainVideo").removeClass("transparentVideo");
+	$("#seek-bar").removeClass("opaqueBar");
 }
 
 function playOrPauseVideo(){
@@ -42,14 +48,15 @@ function playOrPauseVideo(){
 
 		theVideo.play();
 		$.each($(".audio"), function(i, v){
-		v.play();	
-	});
+			v.play();	
+		});
 	}
 }
 
 
 
 $(window).keydown(function(e){
+	e.preventDefault();
 	
 	var keyDownStamp = Date.now();
 
@@ -61,7 +68,7 @@ $(window).keydown(function(e){
 			setTimeout(function(){
 				if (keyUpStamp > keyDownStamp) {
 
-			playOrPauseVideo();
+			
 
 			
 			} else {
@@ -71,16 +78,37 @@ $(window).keydown(function(e){
 			}	
 
 			}, 600);
+		
 		}	
+	
+
+
+
+	//console.log("keydown detected " + e.keyCode);
+	
+
+	//if keyup comes after less than one second
+
+		//wait one second
+		//check if last keyup stamp is after keydown stamp
+			//if not,this means user is holding and call showDetail
+		//else -- this is a tap, toggle play/pause
+
+	//if keyup doesn't come for more than one second, user is holding down the key. Launch detail view
+
 });
 
 
 $(window).keyup(function(e){
+	if(!spacebarIsBeingPressed){
+		playOrPauseVideo();
+	}
 	spacebarIsBeingPressed = false;
 	keyUpStamp = Date.now();
 	//console.log("keyup detected " + e.keyCode);
 	hideDetailBehindVideo();
 });
+
 
 //scrubber
 var video = document.getElementById("mainVideo");
@@ -95,6 +123,11 @@ $(document).ready(function(){
 	video.volume = 0;
 	$.each($(".audio"), function(i, v){
 		v.volume = 0.2;
+	});
+
+	$("#infoButton").hover(function(){
+		console.log("hover detected");
+		$("#infoButton").toggleClass("infoButtonHover");
 	});
 
 	var avatar1Lock = false, avatar2Lock = false, avatar3Lock = false, avatar4Lock = false;
