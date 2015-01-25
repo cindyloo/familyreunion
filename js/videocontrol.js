@@ -154,9 +154,78 @@ function playOrPauseVideo(){
 }
 
 
+var delta = 500;
+var lastKeyPressTimeA = 0;
+var lastKeyPressTimeS = 0;
+var lastKeyPressTimeD = 0;
+var lastKeyPressTimeF = 0;
 
 $(window).keydown(function(e){
-	e.preventDefault();
+	
+	
+if (e.keyCode === 65) {
+	
+	var thisKeyPressTime = new Date();
+	if ( thisKeyPressTime - lastKeyPressTimeA <= delta )
+      {
+        //handle double-tap
+		$("#avatar1").addClass("faceIconLock");
+        thisKeyPressTime = 0;
+      }
+	  lastKeyPressTimeA = thisKeyPressTime;
+	
+	
+	$("#audioOne")[0].volume = 0.8;
+	$("#avatar1").addClass("faceIconLock");
+}
+
+if (e.keyCode === 83) {
+	
+	var thisKeyPressTime = new Date();
+	if ( thisKeyPressTime - lastKeyPressTimeS <= delta )
+      {
+        //handle double-tap
+		console.log("double tap!");
+        thisKeyPressTime = 0;
+      }
+	  lastKeyPressTimeS = thisKeyPressTime;
+	  
+	$("#audioTwo")[0].volume = 0.8;
+	$("#avatar2").addClass("faceIconLock");
+}
+
+if (e.keyCode === 68) {
+	
+	var thisKeyPressTime = new Date();
+	if ( thisKeyPressTime - lastKeyPressTimeD <= delta )
+      {
+        //handle double-tap
+		console.log("double tap!");
+        thisKeyPressTime = 0;
+      }
+	  lastKeyPressTimeD = thisKeyPressTime;
+	  
+	$("#audioThree")[0].volume = 0.8;
+	$("#avatar3").addClass("faceIconLock");
+}
+
+if (e.keyCode === 70) {
+	
+	var thisKeyPressTime = new Date();
+	if ( thisKeyPressTime - lastKeyPressTimeF <= delta )
+      {
+        //handle double-tap
+		console.log("double tap!");
+        thisKeyPressTime = 0;
+      }
+	  lastKeyPressTimeF = thisKeyPressTime;
+	  
+	$("#audioFour")[0].volume = 0.8;
+	$("#avatar4").addClass("faceIconLock");
+}
+	
+if (e.keyCode === 32) {
+		e.preventDefault();
 	
 	var keyDownStamp = Date.now();
 
@@ -179,7 +248,9 @@ $(window).keydown(function(e){
 
 			}, 600);
 		
-		}	
+	}
+		
+}	
 	
 
 
@@ -199,14 +270,38 @@ $(window).keydown(function(e){
 });
 
 
+
 $(window).keyup(function(e){
-	if(!spacebarIsBeingPressed){
-		playOrPauseVideo();
+	
+	if (e.keyCode === 65) {
+	$("#audioOne")[0].volume = 0.2;
+	$("#avatar1").removeClass("faceIconLock");
 	}
-	spacebarIsBeingPressed = false;
-	keyUpStamp = Date.now();
-	//console.log("keyup detected " + e.keyCode);
-	hideDetailBehindVideo();
+
+if (e.keyCode === 83) {
+	$("#audioTwo")[0].volume = 0.2;
+	$("#avatar2").removeClass("faceIconLock");
+	}
+
+if (e.keyCode === 68) {
+	$("#audioThree")[0].volume = 0.2;
+	$("#avatar3").removeClass("faceIconLock");
+	}
+
+if (e.keyCode === 70) {
+	$("#audioFour")[0].volume = 0.2;
+	$("#avatar4").removeClass("faceIconLock");
+	}
+
+	if (e.keyCode === 32) {
+		if(!spacebarIsBeingPressed){
+			playOrPauseVideo();
+		}
+		spacebarIsBeingPressed = false;
+		keyUpStamp = Date.now();
+		//console.log("keyup detected " + e.keyCode);
+		hideDetailBehindVideo();
+	}
 });
 
 

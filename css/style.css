@@ -104,7 +104,7 @@ video {
 #avatar1 {
 	width: 70px;
 	height: 70px;
-	background-image:url(../img/avatar_2.png);
+	background-image:url(../img/avatar_1.png);
 	background-size: 140px 70px;
 	background-position: 0 0;
 	background-repeat: none;
@@ -113,7 +113,7 @@ video {
 #avatar2 {
 	width: 70px;
 	height: 70px;
-	background-image:url(../img/avatar_1.png);
+	background-image:url(../img/avatar_2.png);
 	background-size: 140px 70px;
 	background-position: 0 0;
 	background-repeat: none;
@@ -122,7 +122,7 @@ video {
 #avatar3 {
 	width: 70px;
 	height: 70px;
-	background-image:url(../img/avatar_4.png);
+	background-image:url(../img/avatar_3.png);
 	background-size: 140px 70px;
 	background-position: 0 0;
 	background-repeat: none;
@@ -131,7 +131,7 @@ video {
 #avatar4 {
 	width: 70px;
 	height: 70px;
-	background-image:url(../img/avatar_3.png);
+	background-image:url(../img/avatar_4.png);
 	background-size: 140px 70px;
 	background-position: 0 0;
 	background-repeat: none;
