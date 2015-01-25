@@ -52,7 +52,7 @@ $(window).keydown(function(e){
 			setTimeout(function(){
 				if (keyUpStamp > keyDownStamp) {
 
-			playOrPauseVideo();
+			
 
 			
 			} else {
@@ -84,6 +84,9 @@ $(window).keydown(function(e){
 
 
 $(window).keyup(function(e){
+	if(!spacebarIsBeingPressed){
+		playOrPauseVideo();
+	}
 	spacebarIsBeingPressed = false;
 	keyUpStamp = Date.now();
 	//console.log("keyup detected " + e.keyCode);
