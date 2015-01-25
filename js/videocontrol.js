@@ -53,10 +53,6 @@ $(window).keydown(function(e){
 			
 			
 		}	
-	
-
-
-
 	//console.log("keydown detected " + e.keyCode);
 	
 
@@ -77,6 +73,37 @@ $(window).keyup(function(e){
 	keyUpStamp = Date.now();
 	//console.log("keyup detected " + e.keyCode);
 	hideDetailBehindVideo();
+});
+
+//scrubber
+var video = document.getElementById("mainVideo");
+var audio = document.getElementsByClassName("audio");
+console.log("here's audio: " + audio.length);
+var seekBar = document.getElementById("seek-bar");
+
+var updateTime = function(updateThis){
+	var time = video.duration * (seekBar.value / 100);
+	updateThis.currentTime = time;
+}
+seekBar.addEventListener("change", updateTime(video));
+
+// Update the seek bar as the video plays
+video.addEventListener("timeupdate", function() {
+  // Calculate the slider value
+  var value = (100 / video.duration) * video.currentTime;
+
+  // Update the slider value
+  seekBar.value = value;
+});
+
+// Pause the video when the slider handle is being dragged
+seekBar.addEventListener("mousedown", function() {
+  video.pause();
+});
+
+// Play the video when the slider handle is dropped
+seekBar.addEventListener("mouseup", function() {
+  video.play();
 });
 
 

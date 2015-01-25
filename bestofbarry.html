@@ -16,14 +16,29 @@
 //   </script>
 
   <body>
+  <video id="mainVideo" class="v" autobuffer>
+             <source src="assets/dad_5min.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
+       <source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
+     </video>
+     <div id="videoOverlay">
+        <div class="faceIcon"></div>
+        <div class="faceIcon"></div>
+        <div class="faceIcon"></div>
+        <div id="infoButton"></div> 
+        <audio class='audio' src='assets/audio/Kent_FULL.mp3' controls></audio>
+        <audio class='audio' src='assets/audio/Voice2.mp3' controls></audio>
+        <audio class='audio' src='assets/audio/Voice3.wav' controls></audio>
+        <audio class='audio' src='assets/audio/Voice4.mp3' controls></audio>
+
+        <input type="range" id="seek-bar" value="0">
+     </div>
     
-    <h1>Experiments with HTML5 video and media fragment URI references</h1>
+   <!-- <h1>Experiments with HTML5 video and media fragment URI references</h1>
 
       <div id="main">
-
+ 
       <video id="mainVideo" class="v" autobuffer controls>
              <source src="assets/dad_5min.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
- 
 			 <source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
 	   </video>
       
@@ -51,99 +66,99 @@
     <div>
       <audio id="channel1" controls="controls">
       	<source type="audio/wav" src="assets/audio/Dadpart1.wav"></audio>
-    </div>
+    </div> -->
 
 
 <!-- <h1>Experiment description</h1>
  -->
 
 
-<script type="text/javascript">
-  // get video element
-  var video = document.getElementsByTagName("video")[0];
+ <script type="text/javascript">
+//   // get video element
+//   var video = document.getElementsByTagName("video")[0];
   
-  // get page URL without fragment & time offset
-    var currenturl = location.href;
-    var pageurl = location.href.split("#")[0];
-  var offsettime = retrieveTimeFragment(currenturl);
+//   // get page URL without fragment & time offset
+//     var currenturl = location.href;
+//     var pageurl = location.href.split("#")[0];
+//   var offsettime = retrieveTimeFragment(currenturl);
 
-  // set cut-paste-entry to currenturl as default
-    document.displayurl.offseturl.value = currenturl;
+//   // set cut-paste-entry to currenturl as default
+//     document.displayurl.offseturl.value = currenturl;
 
-  // once video is loaded, jump to time offset
-  video.addEventListener("loadedmetadata", function() {
-    // calculate video url & offset
-    // jump to offset given in video url
-    // START: THIS SHOULD BE NATIVE IN BROWSER
-    var videourl = video.currentSrc;
-    var videooffset = retrieveTimeFragment(videourl);
-    if (videooffset != 0) {
-      video.currentTime = videooffset;
-    }
-    // END: THIS SHOULD BE NATIVE IN BROWSER
+//   // once video is loaded, jump to time offset
+//   video.addEventListener("loadedmetadata", function() {
+//     // calculate video url & offset
+//     // jump to offset given in video url
+//     // START: THIS SHOULD BE NATIVE IN BROWSER
+//     var videourl = video.currentSrc;
+//     var videooffset = retrieveTimeFragment(videourl);
+//     if (videooffset != 0) {
+//       video.currentTime = videooffset;
+//     }
+//     // END: THIS SHOULD BE NATIVE IN BROWSER
 
-    // first time only: jump to offset given in page url
-    if (offsettime != 0) {
-      video.currentTime = offsettime;
-      offsettime = 0;
-    }
-  }, false);
+//     // first time only: jump to offset given in page url
+//     if (offsettime != 0) {
+//       video.currentTime = offsettime;
+//       offsettime = 0;
+//     }
+//   }, false);
 
-  // set callback for video to update page URL with time offset when paused
-  video.addEventListener("pause", function() {
-      videotime = video.currentTime;
-      changePageUrlOffset(videotime);
-    }, false);
+//   // set callback for video to update page URL with time offset when paused
+//   video.addEventListener("pause", function() {
+//       videotime = video.currentTime;
+//       changePageUrlOffset(videotime);
+//     }, false);
 
-    // when the hash on the window changes, also do an offset
-    window.addEventListener("hashchange", function() {
-      var url = location.href;
-      var time = retrieveTimeFragment(url);
-    video.currentTime = time;
-    // update cut-and-paste url
-      document.displayurl.offseturl.value = location.href;
-    }, false);
+//     // when the hash on the window changes, also do an offset
+//     window.addEventListener("hashchange", function() {
+//       var url = location.href;
+//       var time = retrieveTimeFragment(url);
+//     video.currentTime = time;
+//     // update cut-and-paste url
+//       document.displayurl.offseturl.value = location.href;
+//     }, false);
     
-    // jump to time offset action
-    function jumpToTimeoffset(form) {
-    var time = form.time.value;
-      video.currentTime = time;
-    changePageUrlOffset(time);
-    }
+//     // jump to time offset action
+//     function jumpToTimeoffset(form) {
+//     var time = form.time.value;
+//       video.currentTime = time;
+//     changePageUrlOffset(time);
+//     }
     
-    // change the video's url
-    function changeVideoUrl(form) {
-      var newurl = form.url.value;
-      video.src = newurl;
-    // possibly the change of a hash on a video's src attribute could be done
-    // without having to re-load the file
-      video.load();
-    var newurloffset = retrieveTimeFragment(newurl);
-      changePageUrlOffset(newurloffset);
-    }
+//     // change the video's url
+//     function changeVideoUrl(form) {
+//       var newurl = form.url.value;
+//       video.src = newurl;
+//     // possibly the change of a hash on a video's src attribute could be done
+//     // without having to re-load the file
+//       video.load();
+//     var newurloffset = retrieveTimeFragment(newurl);
+//       changePageUrlOffset(newurloffset);
+//     }
     
-    // parse the time hash out of the given url
-    function retrieveTimeFragment(url) {
-      var pageoffset = 0;
-    var offsettime = 0;
-      if (url.split("#")[1] != null) {
-      pageoffset = url.split("#")[1];
-      if (pageoffset.substring(2) != null) {
-        offsettime = pageoffset.substring(2);
-      }
-    }
-    return offsettime;
-    }
+//     // parse the time hash out of the given url
+//     function retrieveTimeFragment(url) {
+//       var pageoffset = 0;
+//     var offsettime = 0;
+//       if (url.split("#")[1] != null) {
+//       pageoffset = url.split("#")[1];
+//       if (pageoffset.substring(2) != null) {
+//         offsettime = pageoffset.substring(2);
+//       }
+//     }
+//     return offsettime;
+//     }
     
-    // change urls
-    function changePageUrlOffset(time) {
-      // update page url
-    location.hash = "#t=" + time;
-      // update cut-and-paste url
-      document.displayurl.offseturl.value = location.href;
-    }
+//     // change urls
+//     function changePageUrlOffset(time) {
+//       // update page url
+//     location.hash = "#t=" + time;
+//       // update cut-and-paste url
+//       document.displayurl.offseturl.value = location.href;
+//     }
   
-</script>
+// </script>
 <script src="js/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="js/videocontrol.js"></script>
 
