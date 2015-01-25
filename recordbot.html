@@ -2,11 +2,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="../../favicon.ico">
    
     <title>Experiments with HTML5 video and media fragments</title>
@@ -14,14 +13,17 @@
     <link href="css/bootstrap.css" rel="stylesheet">
      <link href="css/layout.css" rel="stylesheet">
     <!-- Bootstrap theme -->
-    <link href="css/bootstrap-responsive" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        
+        
     <script src="js/bootstrap.js"></script>
-    <script src="js/jquery-2.1.3"></script>
+    <script src="js/jquery-2.1.3.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    
     <script src="js/audiodisplay.js"></script>
     <script src="js/recorderjs/recorder.js"></script>
     <script src="js/main.js"></script>
- 
+  <script src="js/recordbot.js"></script>
   </head>
   
   
@@ -38,10 +40,11 @@
           <div class="masthead clearfix">
             <div class="inner">
               <h3 class="masthead-brand">StoryBot</h3>
+              <h4 class="masthead-brand">Bishop Family Archive</h4>
               <nav>
                 <ul class="nav masthead-nav">
                   <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
+                  <li><a href="#">Help</a></li>
                   <li><a href="#">Contact</a></li>
                 </ul>
               </nav>
@@ -57,24 +60,26 @@
  
 			<source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
 			</video>
-            <p class="lead">Record your story.</p>
+            <p class="lead">Watch and Record your story.</p>
            
           </div>
 
 
 
-			<div id="viz">
-					<canvas id="analyser" width="1024" height="100"></canvas>
-				<canvas id="wavedisplay" width="1024" height="100"></canvas>
+			<div id="viz" >
+				<div>
+				<canvas id="analyser" width="500" height="50"></canvas>
+				</div>
+				<div>
+				<canvas id="wavedisplay" width="500" height="50"></canvas>
+				</div>
 			</div>
-			<div id="controls">
-					<img id="record" src="assets/mic128.png" onclick="toggleRecording(this);">
-				<a id="save" href="#"><img src="assets/save.svg"></a>
+			<div id="controls" >
+				<img id="record" src="assets/microphone.png" onclick="toggleRecording(this);">
+				<a id="save" href="#">
+				<img src="assets/save.svg"></a>
 			</div>
-			 <div class="mastfoot">
-            <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-            </div>
+
       
 
         </div>
@@ -96,7 +101,7 @@
   var offsettime = retrieveTimeFragment(currenturl);
 
   // set cut-paste-entry to currenturl as default
-    document.displayurl.offseturl.value = currenturl;
+    //document.displayurl.offseturl.value = currenturl;
 
   // once video is loaded, jump to time offset
   video.addEventListener("loadedmetadata", function() {
