@@ -5,12 +5,50 @@
     <title>Experiments with HTML5 video and media fragments</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     
+    <!--Google Font-->
+	<link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    
+    <script src="waveform.js"></script>
 
   </head>
 
 
   <body>
-      <video id="mainVideo" class="v" autobuffer>
+    
+  <div id="mainBox">
+	<div id="avatarControls">
+    
+    <div id="avatarGeneric">
+    </div>
+    <div class="customTextSmall avatarText">
+    <p>Hover = Amplify<br />
+    Click = Lock/Unlock<br />
+    2x Click = Solo<br />
+    </p>	
+    </div>
+    </div>
+    
+    <div id="spacebar">
+    <p id="spacebarText">Spacebar</p>
+    </div>
+    <div id="spacebarInstruct">
+    <p class="customTextSmall textCentered">Tap = Play/Pause Video &nbsp;&nbsp;&nbsp; Hold = View Audio Tracks</p>
+    </div>  
+    
+    <div id="mainBoxAdvanced">
+  
+    <p class="customText textCentered" >Advanced Keyboard Controls</p>
+    <div id="keys"></div>
+    <p class="customTextSmall textCentered">Hold = Amplify &nbsp;&nbsp;&nbsp; 2x Tap = Lock/Unlock</p>
+
+</div>
+    
+</div>
+
+  <div id="darkPane">
+  </div>
+
+  <video id="mainVideo" class="v" autobuffer>
              <source src="assets/dad_5min.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
        <source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
       
@@ -18,10 +56,12 @@
      </video>
 
      <div id="videoOverlay">
+     <div id="avatar_menu">
         <div class="faceIcon" id="avatar1"></div>
         <div class="faceIcon" id="avatar2"></div>
         <div class="faceIcon" id="avatar3"></div>
         <div class="faceIcon" id="avatar4"></div>
+     </div>
 
         <div id="infoButton"></div> 
         <audio id="audioOne" class='audio' src='assets/audio/Kent_FULL.mp3' ></audio>
@@ -32,6 +72,15 @@
         <input type="range" id="seek-bar" value="0">
      </div>
      
+
+     <div id="audioView">
+     <div id="audioWaves">
+     <div id="wave1"></div>
+     <div id="wave2"></div>
+     <div id="wave3"></div>
+     <div id="wave4"></div>
+     </div>
+     </div>
     
    <!-- <h1>Experiments with HTML5 video and media fragment URI references</h1>
 
