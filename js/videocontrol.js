@@ -10,12 +10,14 @@ $("#infoButton").hover(function(){
 	$("#darkPane").show();
     $("#mainBox").show();
 	$("#infoButton").css("right",0);
+	$("#infoButton").css("opacity",1);
 });
 
 $("#infoButton").mouseleave(function(){
 	$("#darkPane").hide();
     $("#mainBox").hide();
 	$("#infoButton").css("right",-5);
+	$("#infoButton").css("opacity",.5);
 });
 	
 
