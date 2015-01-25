@@ -13,7 +13,9 @@ video {
 	border-radius: 50%;
 }
 
-.faceIcon:hover{
+
+.faceIcon:hover, .faceIconLock{
+
 	opacity: 1.0;
 }
 
@@ -41,4 +43,15 @@ video {
 	opacity: 1.0;
 	width: 300px;
 	height: 100px;
-};
+
+
+
+}
+
+#seek-bar{
+	width: 80%;
+	height: 400px;
+}
+
+
+
