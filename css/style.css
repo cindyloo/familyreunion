@@ -13,7 +13,7 @@ video {
 	border-radius: 50%;
 }
 
-.faceIcon:hover{
+.faceIcon:hover, .faceIconLock{
 	opacity: 1.0;
 }
 
