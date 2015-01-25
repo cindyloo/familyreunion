@@ -19,25 +19,135 @@ $("#infoButton").mouseleave(function(){
 	$("#infoButton").css("right",-5);
 	$("#infoButton").css("opacity",.5);
 });
-	
+
+nodeFlag = false;
+$(window).keydown(function(e){
+if(nodeFlag) return;
+nodeFlag = true;
+if (e.keyCode === 78) {
+	console.log("I'm firing");
+	$("#audioNodes").css("z-index",100001);
+}
+});
+$(".nodeOn").mouseover(function(){
+	console.log("sdfds")
+	$(".nodeOff").css("opacity",.0);
+});
+$(".nodeOn").mouseout(function(){
+	$(".nodeOff").css("opacity",.5);
+});
+
 
 $(document).ready(function(){
-
-$(".nodeOn").mouseenter(function() {
-	console.log("I'm firing");
-	$(".nodeOff").css("opacity",.3);
-	$(".nodeOff").hide();
+	setUpWaveformUI();
+	var theVideo = document.getElementById("mainVideo");
+	theVideo.currentTime = 60;
 });
+	
+// Call this function once, when the document is ready, to set up the waveform UI.
+function setUpWaveformUI(){
+	var audioChannels = 4; // #todo change this later to refer to master list of audio
 
-});
+	for(var i=0;i<audioChannels;i++){
+		$("#audioScrubberUI").append("<canvas class=\"waveform-ui\" width=1335 height=60></canvas>");
+		// create a <canvas> for every waveform. This canvas exists ontop of the waveform!
+	}
+	$("#seek-bar").hide() //hide the seek bar
+	$("#audioScrubberUI").hide(); // hide the UI. (wait until we get user input)
+
+	// just one waveform
+	$("#audioScrubberUI").append("<canvas class=\"waveform-scrubber\" width=1335 height=300></canvas>");
+
+	$(".waveform-ui").on("mousemove",function(e){
+		var w = $(this).width()
+        var x = (e.pageX - $(this).offset().left);
+        //drawCursor($(this), x)
+        $(".waveform-ui").each(function(){
+        	drawHighlightCursor($(this), x)
+        })
+	});
+	$(".waveform-ui").on("mouseup",function(e){
+		var w = $(this).width()
+        var x = (e.pageX - $(this).offset().left); 
+        $(".waveform-ui").each(function(){
+        	drawHighlightCursor($(this), x)
+        })
+	});
+	$(".waveform-ui").on("mousedown",function(e){
+		var w = $(this).width()
+        var x = (e.pageX - $(this).offset().left);
+        $(".waveform-ui").each(function(){
+        	hideHighlightCursor($(this))
+        })
+        //console.log(w,x)
+        scrub(x/w);
+	});
+	$(".waveform-ui").on("mouseout",function(e){
+		$(".waveform-ui").each(function(){
+        	hideHighlightCursor($(this))
+        })
+	});
+};
+// draws the highlight cursor on given canvas at position x
+function drawHighlightCursor(canvas, x){
+	var w = canvas.width()
+	var h = canvas.height()
+	var context = canvas[0].getContext("2d");
+	context.clearRect(0,0,w,h)
+	context.lineWidth = 3;
+    context.strokeStyle = "#55aa77";
+	context.strokeRect(x,0,3,h);
+}
+// draws the scrubber position cursor on given canvas at position x
+function drawScrubberCursor(canvas, x){
+	var w = canvas.width()
+	var h = canvas.height()
+	var context = canvas[0].getContext("2d");
+	context.clearRect(0,0,w,h)
+	context.lineWidth = 3;
+    context.strokeStyle = "#ffff00";
+	context.strokeRect(x,0,3,h);
+}
+
+// hides the scrubber cursor from given canvas 
+function hideHighlightCursor(canvas){
+	var w = canvas.width()
+	var h = canvas.height()
+	var context = canvas[0].getContext("2d");
+	context.clearRect(0,0,w,h)
+}
+// Move the all the media to a point in time.   
+// timePercentage is a float from 0 to 1. 
+function scrub(timePercentage){
+	console.log(timePercentage);
+	$("#seek-bar")[0].value = timePercentage * 100;
+	updateVideoAndAudioPosition();
+	$("#seek-bar").trigger("change");
+	document.getElementById("mainVideo").play()
+}
+// call this when the video position gets updated 
+// timePercentage is a float from 0 to 1. 
+function updateAudioScrubberCursor(timePercentage){
+	$(".waveform-scrubber").each(function(){
+		var x = timePercentage * $(this).width();
+        drawScrubberCursor($(this),x)
+    })
+}
+
+
+
+
+
 
 function showDetailBehindVideo(){
 
+	$("#audioScrubberUI").show();
 	$("#mainVideo").addClass("transparentVideo");
 	$("#seek-bar").addClass("opaqueBar");
 }
 
 function hideDetailBehindVideo(){
+	$("#audioScrubberUI").hide();
 	$("#mainVideo").removeClass("transparentVideo");
 	$("#seek-bar").removeClass("opaqueBar");
 }
@@ -215,7 +325,7 @@ if (e.keyCode === 70) {
 });
 
 
-//scrubber
+// scrubber
 var video = document.getElementById("mainVideo");
 var videoDuration = video.duration;
 var audio = document.getElementsByClassName("audio");
@@ -340,20 +450,25 @@ $(document).ready(function(){
 });
 
 
+
 var updateAudio = function(audioArg){
 	var audioTime = audioArg.duration * (seekBar.value / 100)
 	audioArg.currentTime = audioTime;	
 };
 
 seekBar.addEventListener("change", function(){
+	updateVideoAndAudioPosition();
+});
+
+function updateVideoAndAudioPosition(){
 	var time = video.duration * (seekBar.value / 100);
 
 	video.currentTime = time;
-	console.log(audio);
+	//console.log(audio);
 	$.each($(".audio"), function(i, v){
 		updateAudio(v)	
 	});
-});
+}
 
 // Update the seek bar as the video plays
 video.addEventListener("timeupdate", function() {
@@ -362,6 +477,7 @@ video.addEventListener("timeupdate", function() {
 
   // Update the slider value
   seekBar.value = value;
+  updateAudioScrubberCursor(value/100);
 });
 
 // Pause the video when the slider handle is being dragged

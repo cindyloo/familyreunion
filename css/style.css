@@ -8,6 +8,16 @@ video {
 	width: 100%;
 }
 
+#word_cloud {
+	background-image:url(../img/word_cloud.png);
+	background-size: 380px 200px;
+	position: absolute;
+	top: 15px;
+	left: 370px;
+	width: 380px;
+	height: 200px;
+}
+
 .faceIcon {
 	opacity: 0.5;
 	margin-bottom: 10px;
@@ -33,7 +43,19 @@ video {
 	opacity: 1;
 }
 
-#audioWaves {
+#audioNodes {
+	position: absolute;
+	width: 100%;
+	height: 320px;
+	left:85px;
+	top: 50%;
+	margin-top: -155px;
+	margin-left: 15px;
+	z-index: 99999;
+	opacity: 0;
+}
+
+#audioWaves, #audioScrubberUI {
 	position: absolute;
 	width: 100%;
 	height: 320px;
@@ -44,68 +66,52 @@ video {
 	/*z-index: 0;*/
 }
 
-#audioNodes {
-	position: absolute;
-	width: 100%;
-	height: 320px;
-	left:85px;
-	top: 50%;
-	margin-top: -155px;
-	margin-left: 15px;
-	z-index: 2;
-	opacity: 0;
+#audioWaves .waveform, 
+#audioScrubberUI .waveform-ui{
+	position: relative;
+	width: 1335px;
+	height: 60px;
+	background-size: 1110px 60px;
+	background-position: 0 0;
+	background-repeat: none;
+	float: left;
+	opacity: .3;
+	margin-top: 20px;
 }
-
+#audioScrubberUI .waveform-scrubber {
+	position: relative;
+	top: -300px;
+	z-index: -1;
+	width: 1335px;
+	height: 300px;
+	float: left;
+	opacity: .3;
+}
+#audioWaves .waveform:nth-of-type(1), 
+#audioScrubberUI .waveform-ui:nth-of-type(1) {
+	margin-top: 0px;
+}
 #wave1 {
-	position: relative;
-	width: 1335px;
-	height: 60px;
 	background-image:url(../img/voice1_waveform.png);
-	background-size: 1110px 60px;
-	background-position: 0 0;
-	background-repeat: none;
-	float: left;
-	opacity: .3;
 }
-
 #wave2 {
-	position: relative;
-	width: 1335px;
-	height: 60px;
 	background-image:url(../img/voice2_waveform.png);
-	background-size: 1110px 60px;
-	background-position: 0 0;
-	background-repeat: none;
-	float: left;
-	margin-top: 20px;
-	opacity: .3;
 }
-
 #wave3 {
-	position: relative;
-	width: 1335px;
-	height: 60px;
 	background-image:url(../img/voice3_waveform.png);
-	background-size: 1110px 60px;
-	background-position: 0 0;
-	background-repeat: none;
-	float: left;
-	margin-top: 20px;
-	opacity: .3;
+}
+#wave4 {
+	background-image:url(../img/voice4_waveform.png);
 }
 
-#wave4 {
-	position: relative;
-	width: 1335px;
-	height: 60px;
-	background-image:url(../img/voice4_waveform.png);
-	background-size: 1110px 60px;
-	background-position: 0 0;
-	background-repeat: none;
-	float: left;
-	margin-top: 20px;
-	opacity: .3;
+#audioScrubberUI {
+	z-index: 100000;
 }
+
+
+
+
+
 
 /*
 #node1 {
@@ -251,7 +257,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 107px;
-	left:53px;
+	left:80px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -261,7 +267,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 107px;
-	left:100px;
+	left:125px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -271,7 +277,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 107px;
-	left:121px;
+	left:270px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -281,7 +287,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 107px;
-	left:268px;
+	left:320px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -291,7 +297,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 107px;
-	left:580px;
+	left:800px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -301,7 +307,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 187px;
-	left:53px;
+	left:20px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -311,7 +317,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 187px;
-	left:100px;
+	left:120px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -321,7 +327,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 187px;
-	left:121px;
+	left:150px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -351,7 +357,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 267px;
-	left:53px;
+	left:47px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -361,7 +367,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 267px;
-	left:100px;
+	left:90px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -371,7 +377,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 267px;
-	left:121px;
+	left:227px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -381,7 +387,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 267px;
-	left:268px;
+	left:445px;
 	border-radius: 5px 5px 5px;
 }
 
@@ -391,7 +397,7 @@ video {
 	background-color: #fff;
 	position:absolute;
 	top: 267px;
-	left:580px;
+	left:780px;
 	border-radius: 5px 5px 5px;
 }
 
