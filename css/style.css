@@ -27,9 +27,10 @@ video {
 #audioView {
 	position: absolute;
 	z-index: -1;
-	background-color: #000;
+	background: rgba(0, 0, 0, 1);
 	width: 100%;
 	height: 100%;
+	opacity: 1;
 }
 
 #audioWaves {
@@ -43,6 +44,18 @@ video {
 	/*z-index: 0;*/
 }
 
+#audioNodes {
+	position: absolute;
+	width: 100%;
+	height: 320px;
+	left:85px;
+	top: 50%;
+	margin-top: -155px;
+	margin-left: 15px;
+	z-index: 2;
+	opacity: 0;
+}
+
 #wave1 {
 	position: relative;
 	width: 1335px;
@@ -52,7 +65,7 @@ video {
 	background-position: 0 0;
 	background-repeat: none;
 	float: left;
-	opacity: .5;
+	opacity: .3;
 }
 
 #wave2 {
@@ -65,7 +78,7 @@ video {
 	background-repeat: none;
 	float: left;
 	margin-top: 20px;
-	opacity: .5;
+	opacity: .3;
 }
 
 #wave3 {
@@ -78,7 +91,7 @@ video {
 	background-repeat: none;
 	float: left;
 	margin-top: 20px;
-	opacity: .5;
+	opacity: .3;
 }
 
 #wave4 {
@@ -91,7 +104,7 @@ video {
 	background-repeat: none;
 	float: left;
 	margin-top: 20px;
-	opacity: .5;
+	opacity: .3;
 }
 
 /*
@@ -158,6 +171,16 @@ video {
 	opacity: 0.5;
 }
 
+.nodeOn {
+	position: absolute;
+	z-index:999;
+}
+
+.nodeOff {
+	position: absolute;
+	z-index:999;
+}
+
 
 #infoButton {
 	height: 50px;
@@ -170,6 +193,206 @@ video {
 	right: -5px;
 	opacity: 0.5;
 	z-index:1000;
+}
+
+#node1 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 27px;
+	left:53px;
+	border-radius: 5px 5px 5px;
+}
+
+#node2 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 27px;
+	left:100px;
+	border-radius: 5px 5px 5px;
+}
+
+#node3 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 27px;
+	left:121px;
+	border-radius: 5px 5px 5px;
+}
+
+#node4 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 27px;
+	left:268px;
+	border-radius: 5px 5px 5px;
+}
+
+#node5 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 27px;
+	left:580px;
+	border-radius: 5px 5px 5px;
+}
+
+#node6 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 107px;
+	left:53px;
+	border-radius: 5px 5px 5px;
+}
+
+#node7 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 107px;
+	left:100px;
+	border-radius: 5px 5px 5px;
+}
+
+#node8 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 107px;
+	left:121px;
+	border-radius: 5px 5px 5px;
+}
+
+#node9 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 107px;
+	left:268px;
+	border-radius: 5px 5px 5px;
+}
+
+#node10 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 107px;
+	left:580px;
+	border-radius: 5px 5px 5px;
+}
+
+#node11 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 187px;
+	left:53px;
+	border-radius: 5px 5px 5px;
+}
+
+#node12 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 187px;
+	left:100px;
+	border-radius: 5px 5px 5px;
+}
+
+#node13 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 187px;
+	left:121px;
+	border-radius: 5px 5px 5px;
+}
+
+#node14 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 187px;
+	left:268px;
+	border-radius: 5px 5px 5px;
+}
+
+#node15 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 267px;
+	left:580px;
+	border-radius: 5px 5px 5px;
+}
+
+#node16 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 267px;
+	left:53px;
+	border-radius: 5px 5px 5px;
+}
+
+#node17 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 267px;
+	left:100px;
+	border-radius: 5px 5px 5px;
+}
+
+#node18 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 267px;
+	left:121px;
+	border-radius: 5px 5px 5px;
+}
+
+#node19 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 267px;
+	left:268px;
+	border-radius: 5px 5px 5px;
+}
+
+#node20 {
+	width: 8px;
+	height: 8px;
+	background-color: #fff;
+	position:absolute;
+	top: 267px;
+	left:580px;
+	border-radius: 5px 5px 5px;
 }
 
 /*

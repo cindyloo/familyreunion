@@ -23,6 +23,12 @@ $("#infoButton").mouseleave(function(){
 
 $(document).ready(function(){
 
+$(".nodeOn").mouseenter(function() {
+	console.log("I'm firing");
+	$(".nodeOff").css("opacity",.3);
+	$(".nodeOff").hide();
+});
+
 });
 
 function showDetailBehindVideo(){
@@ -146,6 +152,7 @@ if (e.keyCode === 32) {
 
 				showDetailBehindVideo();	
 				spacebarIsBeingPressed = true;
+				$("#audioNodes").css("opacity", 100);
 			}	
 
 			}, 600);
@@ -199,6 +206,7 @@ if (e.keyCode === 70) {
 		if(!spacebarIsBeingPressed){
 			playOrPauseVideo();
 		}
+		$("#audioNodes").css("opacity", 0);
 		spacebarIsBeingPressed = false;
 		keyUpStamp = Date.now();
 		//console.log("keyup detected " + e.keyCode);
