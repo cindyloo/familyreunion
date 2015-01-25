@@ -20,8 +20,8 @@ function playOrPauseVideo(){
 		theVideo.pause();
 		$.each($(".audio"), function(i, v){
 			v.pause();	
-		);
-		
+		});
+
 	} else {
 
 		theVideo.play();
