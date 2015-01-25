@@ -1,0 +1,44 @@
+video {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.faceIcon {
+	background-color: blue;
+	opacity: 0.3;
+	height: 50px;
+	width: 50px;
+	margin: 20px 0;
+	border-radius: 50%;
+}
+
+.faceIcon:hover{
+	opacity: 1.0;
+}
+
+#videoOverlay {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
+.transparentVideo {
+	opacity: 0.5;
+}
+
+#infoButton {
+	height: 44px;
+	width: 44px;
+	background-color: red;
+	position: absolute;
+	bottom: 5px;
+	right: 25px;
+	opacity: 0.3;
+}
+
+#infoButton:hover{
+	opacity: 1.0;
+	width: 300px;
+	height: 100px;
+};

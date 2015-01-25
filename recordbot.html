@@ -56,15 +56,12 @@
              <div id="main">
 
       			<video class="v" autobuffer controls>
-             <source src="assets/dad_5min.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
- 
-			<source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
-			</video>
-            <p class="lead">Watch and Record your story.</p>
+             		<source src="assets/dad_5min.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
+					<source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
+				</video>
+            
            
           </div>
-
-
 
 			<div id="viz" >
 				<div>
@@ -75,14 +72,32 @@
 				</div>
 			</div>
 			<div id="controls" >
-				<img id="record" src="assets/microphone.png" onclick="toggleRecording(this);">
-				<a id="save" href="#">
-				<img src="assets/save.svg"></a>
+				<div id="readyState">
+					<p id="play">Play Movie and Record Audio</p>
+					<div id="triangle" onclick="toggleRecording(this);setRecordingState();">
+					</div>	
+				</div>
+				<div id="recordingState">
+					<p id="recording">Recording...</p>
+					<div id="recordingCircle" onclick="toggleRecording(this);setSaveState();">
+					</div>	
+				</div>
+				<div id="saveState">
+					<p id="save">Save Recording or Start Over?</p>
+					<div>
+					<a id="save" href="#">
+					<img src="assets/save.png" onclick="saveAudio();setSavedState();">
+					<a href="#" onclick="setReadyState();">Do Over</a>
+					</div>
+				</div>
+				
+				<div id="savedState">
+					<p id="save">Saved and Sent!</p>
+					<a href="#" onclick="setReadyState();">Record Another Story</a>
+				</div>
+				
 			</div>
 
-      
-
-        </div>
 
       </div>
 
