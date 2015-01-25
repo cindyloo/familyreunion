@@ -3,6 +3,22 @@
 var keyUpStamp = Date.now();
 var spacebarIsBeingPressed = false;
 
+$("#darkPane").hide();
+$("#mainBox").hide();
+
+$("#infoButton").hover(function(){
+	$("#darkPane").show();
+    $("#mainBox").show();
+	$("#infoButton").css("right",0);
+});
+
+$("#infoButton").mouseleave(function(){
+	$("#darkPane").hide();
+    $("#mainBox").hide();
+	$("#infoButton").css("right",-5);
+});
+	
+
 function showDetailBehindVideo(){
 
 	$("#mainVideo").addClass("transparentVideo");
@@ -134,9 +150,11 @@ $(document).ready(function(){
 			$(this).addClass("faceIconLock");
 			$("#audioOne")[0].volume = 0.8;
 			avatar1Lock = true;
+			$("#avatar1").css('background-position','-70px 0px');
 		} else {
 			$(this).removeClass("faceIconLock");
 			avatar1Lock = false;
+			$("#avatar1").css('background-position','0px 0px');
 		}
 		
 	});
@@ -146,9 +164,11 @@ $(document).ready(function(){
 			$(this).addClass("faceIconLock");
 			$("#audioTwo")[0].volume = 0.2;
 			avatar2Lock = true;	
+			$("#avatar2").css('background-position','-70px 0px');
 		} else {
 			$(this).removeClass("faceIconLock");
 			avatar2Lock = false;
+			$("#avatar2").css('background-position','0px 0px');
 		}
 	});
 
@@ -157,9 +177,11 @@ $(document).ready(function(){
 			$(this).addClass("faceIconLock");
 			$("#audioThree")[0].volume = 0.2;
 			avatar3Lock = true;	
+			$("#avatar3").css('background-position','-70px 0px');
 		} else {
 			$(this).removeClass("faceIconLock");
 			avatar3Lock = false;
+			$("#avatar3").css('background-position','0px 0px');
 		}
 	});
 
@@ -169,9 +191,11 @@ $(document).ready(function(){
 			$(this).addClass("faceIconLock");
 			$("#audioFour")[0].volume = 0.2;
 			avatar4Lock = true;	
+			$("#avatar4").css('background-position','-70px 0px');
 		} else {
 			$(this).removeClass("faceIconLock");
 			avatar4Lock = false;
+			$("#avatar4").css('background-position','0px 0px');
 		}
 	});
 

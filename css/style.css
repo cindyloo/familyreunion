@@ -1,3 +1,8 @@
+
+body {
+	margin: 0;
+}
+
 video {
 	position: absolute;
 	height: 100%;
@@ -5,12 +10,124 @@ video {
 }
 
 .faceIcon {
-	background-color: blue;
-	opacity: 0.3;
-	height: 50px;
-	width: 50px;
-	margin: 20px 0;
-	border-radius: 50%;
+	/*background-color: blue;*/
+	opacity: 0.5;
+	/*height: 70px;
+	width: 70px;*/
+	margin-bottom: 10px;
+	/*border-radius: 50%;*/
+	
+}
+
+#avatar_menu {
+	position: fixed;
+	width: 70px;
+	height: 320px;
+	left:0;
+	top: 50%;
+	margin-top: -160px;
+	margin-left: 15px;
+	z-index: 3;
+}
+
+#audioView {
+	position: absolute;
+	z-index: -1;
+	background-color: #000;
+	width: 1440px;
+	height: 100%;
+}
+
+#audioWaves {
+	position: absolute;
+	width: 1335px;
+	height: 240px;
+	left:85px;
+	top: 50%;
+	margin-top: -120px;
+	margin-left: 15px;
+	/*z-index: 0;*/
+}
+
+#wave1 {
+	position: relative;
+	width: 1335px;
+	height: 60px;
+	background-image:url(../img/voice1_waveform.png);
+	background-size: 1335px 60px;
+	background-position: 0 0;
+	background-repeat: none;
+	float: left;
+}
+
+#wave2 {
+	position: relative;
+	width: 1335px;
+	height: 60px;
+	background-image:url(../img/voice2_waveform.png);
+	background-size: 1335px 60px;
+	background-position: 0 0;
+	background-repeat: none;
+	float: left;
+}
+
+#wave3 {
+	position: relative;
+	width: 1335px;
+	height: 60px;
+	background-image:url(../img/voice3_waveform.png);
+	background-size: 1335px 60px;
+	background-position: 0 0;
+	background-repeat: none;
+	float: left;
+}
+
+#wave4 {
+	position: relative;
+	width: 1335px;
+	height: 60px;
+	background-image:url(../img/voice4_waveform.png);
+	background-size: 1335px 60px;
+	background-position: 0 0;
+	background-repeat: none;
+	float: left;
+}
+	
+
+#avatar1 {
+	width: 70px;
+	height: 70px;
+	background-image:url(../img/avatar_1.png);
+	background-size: 140px 70px;
+	background-position: 0 0;
+	background-repeat: none;
+}
+
+#avatar2 {
+	width: 70px;
+	height: 70px;
+	background-image:url(../img/avatar_2.png);
+	background-size: 140px 70px;
+	background-position: 0 0;
+	background-repeat: none;
+}
+
+#avatar3 {
+	width: 70px;
+	height: 70px;
+	background-image:url(../img/avatar_3.png);
+	background-size: 140px 70px;
+	background-position: 0 0;
+	background-repeat: none;
+}
+
+#avatar4 {
+	width: 70px;
+	height: 70px;
+	background-image:url(../img/avatar_4.png);
+	background-size: 140px 70px;
+	background-position: 0 0;
+	background-repeat: none;
 }
 
 .faceIcon:hover, .faceIconLock{
@@ -28,24 +145,128 @@ video {
 }
 
 #infoButton {
-	height: 44px;
-	width: 44px;
-	background-color: red;
+	height: 50px;
+	width: 50px;
+	/*background-color: red;*/
+	background-image:url(../img/info_btn.png);
+	background-size: 50px 50px;
 	position: absolute;
-	bottom: 5px;
-	right: 25px;
-	opacity: 0.3;
+	bottom: 30px;
+	right: -5px;
+	opacity: 0.5;
+	z-index:1000;
 }
+
 
 #infoButton:hover{
 	opacity: 1.0;
-	width: 300px;
-	height: 100px;
 }
 
 #seek-bar{
 	width: 80%;
 	height: 400px;
+}
+
+/*Jeff Added*/
+#mainBoxAdvanced {
+	width: 300px;
+	height: 200px;
+	position: absolute;
+	margin-top: 70px;
+    top: 50%;
+	left: 50%;
+	margin-left: -150px;
+}
+
+#mainBox {
+	width:310px;
+	height: 300px;
+	position: absolute;
+	margin-top: -200px;
+    top: 50%;
+	left: 50%;
+	margin-left: -155px;
+	z-index:999;
+}
+
+#darkPane {
+	position: absolute;
+	background: rgba(0, 0, 0, 0.6);
+	z-index:998;
+	width: 100%;
+	height: 100%;
+}
+
+#avatarControls {
+	position: relative;
+	width: 195px;
+	margin: 0 auto;
+}
+
+#avatarGeneric {
+	position: relative;
+	width: 70px;
+	height: 70px;
+	background-image:url(../img/avatar_generic.png);
+	background-size: 70px 70px;
+	float:left;
+}
+
+#spacebar {
+	position: relative;
+	width: 284px;
+	height: 35px;
+	background: #fff;
+	border: 2px solid #FFF;
+    border-radius: 8px;
+	clear: both;
+	margin: 40px auto;
+	margin-bottom: 0;
+}
+
+#spacebarText {
+	font-family: 'Satisfy', serif;
+	font-size: 18px;
+	color: black;
+	text-align: center;
+	margin-top: 7px;
+}
+
+#spacebarInstruct {
+	width:100%;
+	text-align: center;
+}
+
+.customText {
+	font-family: 'Satisfy', serif;
+	font-size: 18px;
+	color: white;
+}
+
+.customTextSmall {
+	position: relative;
+	font-family: 'Satisfy', serif;
+	font-size: 14px;
+	color: white;
+	text-align: left;
+	line-height: 24px;
+}
+
+.avatarText {
+	margin-left: 10px;
+	left: 10px;
+}
+
+#keys {
+	background-image:url(../img/keyboard_keys.png);
+	width: 134px;
+	height: 32px;
+	background-size: 134px 32px;
+	margin: 0 auto;
+}
+
+.textCentered {
+	text-align: center;
 }
 
 
