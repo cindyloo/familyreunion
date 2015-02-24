@@ -22,6 +22,8 @@ $("#infoButton").mouseleave(function(){
 	
 
 $(document).ready(function(){
+	var theVideo = document.getElementById("mainVideo");
+	theVideo.currentTime = 59;
 
 });
 
@@ -58,6 +60,7 @@ function playOrPauseVideo(){
 
 var delta = 500;
 var lastKeyPressTimeA = 0;
+var lastDoubleKeyPressTimeA
 var lastKeyPressTimeS = 0;
 var lastKeyPressTimeD = 0;
 var lastKeyPressTimeF = 0;
@@ -71,14 +74,17 @@ if (e.keyCode === 65) {
 	if ( thisKeyPressTime - lastKeyPressTimeA <= delta )
       {
         //handle double-tap
-		$("#avatar1").addClass("faceIconLock");
+		$("#avatar1").toggleClass("faceIconLock");
+		lastDoubleKeyPressTimeA = Date.now();
         thisKeyPressTime = 0;
+      } else {
+      		$("#audioOne")[0].volume = 0.8;
+	$("#avatar1").addClass("faceIconLock");
       }
 	  lastKeyPressTimeA = thisKeyPressTime;
 	
 	
-	$("#audioOne")[0].volume = 0.8;
-	$("#avatar1").addClass("faceIconLock");
+	
 }
 
 if (e.keyCode === 83) {
@@ -177,8 +183,12 @@ $(window).keyup(function(e){
 	
 	if (e.keyCode === 65) {
 	$("#audioOne")[0].volume = 0.2;
-	$("#avatar1").removeClass("faceIconLock");
+		//if the last double tap was 1/10th of a second ago
+		if(Date.now() - lastDoubleKeyPressTimeA > 200){
+			$("#avatar1").removeClass("faceIconLock");
+		}
 	}
+	
 
 if (e.keyCode === 83) {
 	$("#audioTwo")[0].volume = 0.2;
