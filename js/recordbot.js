@@ -1,11 +1,13 @@
-/*function toggleAudioWidgetFeedback(e){
-	if (e.classList.contains("toggled"))
-		e.classList.remove("slideleft");
-	else
-		e.classList.add("slideleft");
-}*/
+
+function setRegistrationState(){
+	$("div#registration").show();
+	$("div#main").hide();
+}
+
 
 function setReadyState(){
+	$("div#registration").hide();
+	$("div#main").show();
 $('div#saveState ').css("visibility","hidden");
 $('div#saveState ').css("display","none");
 $('div#recordingState ').css("visibility","hidden");
@@ -50,12 +52,11 @@ $('div#savedState').css("display","flex");
 
 
 $( document ).ready(function() {
-	setReadyState();
+	setRegistrationState();
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
-	
-	
+
 
 	
 });
