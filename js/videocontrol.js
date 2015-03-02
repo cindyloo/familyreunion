@@ -1,3 +1,22 @@
+//force portrait orientation on mobile
+
+//if device width is less than 400 AND height is greater than width
+//check on page load, and on resize
+
+var deviceHasLandscapeOrientation;
+function forceToLandscape(){
+	if ((window.innerWidth < 420) && (window.innerHeight > window.innerWidth)) {
+		$("body").append("<div id='rotatePhoneDiv'>"+
+			"<img src='images/phone-rotate-image.png'>" +
+			"</div>");
+		console.log("orientation event");
+	}
+}
+
+$(window).resize(function(){
+	forceToLandscape();
+	console.log("resize event");
+});
 
 
 var keyUpStamp = Date.now();
