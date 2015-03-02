@@ -80,10 +80,10 @@
 					</div>	
 				</div>
 				<div id="saveState">
-					<p id="save">Save Recording or Start Over?</p>
+					<p id="saveit">Save Recording or Start Over?</p>
 					<div>
 					<a id="save" href="#">
-					<img src="assets/save.png" onclick="saveAudio();setSavedState();">
+					<img src="assets/save.png" onclick="saveAudio();setSavedState();"></a>
 					<a href="#" onclick="setReadyState();">Do Over</a>
 					</div>
 				</div>
@@ -106,86 +106,7 @@
   // get video element
   var video = document.getElementsByTagName("video")[0];
   
-  // get page URL without fragment & time offset
-    var currenturl = location.href;
-    var pageurl = location.href.split("#")[0];
-  var offsettime = retrieveTimeFragment(currenturl);
-
-  // set cut-paste-entry to currenturl as default
-    //document.displayurl.offseturl.value = currenturl;
-
-  // once video is loaded, jump to time offset
-  video.addEventListener("loadedmetadata", function() {
-    // calculate video url & offset
-    // jump to offset given in video url
-    // START: THIS SHOULD BE NATIVE IN BROWSER
-    var videourl = video.currentSrc;
-    var videooffset = retrieveTimeFragment(videourl);
-    if (videooffset != 0) {
-      video.currentTime = videooffset;
-    }
-    // END: THIS SHOULD BE NATIVE IN BROWSER
-
-    // first time only: jump to offset given in page url
-    if (offsettime != 0) {
-      video.currentTime = offsettime;
-      offsettime = 0;
-    }
-  }, false);
-
-  // set callback for video to update page URL with time offset when paused
-  video.addEventListener("pause", function() {
-      videotime = video.currentTime;
-      changePageUrlOffset(videotime);
-    }, false);
-
-    // when the hash on the window changes, also do an offset
-    window.addEventListener("hashchange", function() {
-      var url = location.href;
-      var time = retrieveTimeFragment(url);
-    video.currentTime = time;
-    // update cut-and-paste url
-      document.displayurl.offseturl.value = location.href;
-    }, false);
-    
-    // jump to time offset action
-    function jumpToTimeoffset(form) {
-    var time = form.time.value;
-      video.currentTime = time;
-    changePageUrlOffset(time);
-    }
-    
-    // change the video's url
-    function changeVideoUrl(form) {
-      var newurl = form.url.value;
-      video.src = newurl;
-    // possibly the change of a hash on a video's src attribute could be done
-    // without having to re-load the file
-      video.load();
-    var newurloffset = retrieveTimeFragment(newurl);
-      changePageUrlOffset(newurloffset);
-    }
-    
-    // parse the time hash out of the given url
-    function retrieveTimeFragment(url) {
-      var pageoffset = 0;
-    var offsettime = 0;
-      if (url.split("#")[1] != null) {
-      pageoffset = url.split("#")[1];
-      if (pageoffset.substring(2) != null) {
-        offsettime = pageoffset.substring(2);
-      }
-    }
-    return offsettime;
-    }
-    
-    // change urls
-    function changePageUrlOffset(time) {
-      // update page url
-    location.hash = "#t=" + time;
-      // update cut-and-paste url
-      document.displayurl.offseturl.value = location.href;
-    }
+ 
   
 </script>
 
