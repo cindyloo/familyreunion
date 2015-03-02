@@ -22,7 +22,7 @@
 		float:left;
 		position:absolute;
 		margin-left:40%;
-		margin-top:45%;
+		margin-top:25%;
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-around;
@@ -30,20 +30,12 @@
 	}
 	#triangle {
 	
-		margin-top:-10px;
-		opacity: .8;
-			z-index:0;
-		position:absolute;
-		float:left;
-		width:0;
-		height:0;
-		border-top: 40px solid transparent;
-		border-bottom: 40px solid transparent;	
-		border-left: 60px solid #f00;);
+		
     }
     #record{position:absolute;
 	float:left;
 	z-index:10;}
+	
 	#recordingCircle { 
 		background: #f00;
     	width: 40px;
@@ -52,7 +44,7 @@
 
     border-radius: 50%;
     }
-	#main{float:left;position:relative;padding-top:90px;}
+	#main{float:left;position:relative;padding-top:90px;padding-left:100px;}
 	#save, #save img { height: 10vh; }
 	#save { /*opacity: 0.25;*/}
 	#save[download] { opacity: 1;}
@@ -60,13 +52,17 @@
 		float:right;
 		position:absolute;
 		width: 100%;
-		padding-top:100px;
+		padding-top:10px;
 		padding-left:0%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
 	}
+	
+	div.mejs-container {float:left;}
+	
+	div.mejs-overlay-button{color:red;}
 	
 	.waitslidein {
 	-webkit-animation-delay:5s;

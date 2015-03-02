@@ -1,6 +1,7 @@
 var userName;
 var description;
 var storyURL;
+
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#main").hide();
@@ -12,6 +13,28 @@ function getRegInfo(){
 	storyURL = $("input#urlLink").val();
 	
 	$("source#FFYouTube").attr("src",storyURL);
+	var vplayer= $("#theplayer");	
+	var mePlayer = new MediaElementPlayer("#theplayer",{
+	
+		success: function (mediaElement, domObject) { 
+	
+       	 // call the play method
+      	 // mediaElement.play();
+         	$(".mejs-overlay-button").css("background","none");
+			var customButton = $(".mejs-overlay-button");
+			setReadyState();
+		
+			$(".mejs-overlay-button").click(function(){
+				toggleRecording(this);
+				setRecordingState();
+			});
+		},
+		error: function(){
+		
+		}
+    });
+	
+	
 }
 
 
@@ -70,6 +93,7 @@ $( document ).ready(function() {
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
+
 
 
 	
