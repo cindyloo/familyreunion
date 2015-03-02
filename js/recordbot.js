@@ -1,13 +1,23 @@
+var userName;
+var description;
 
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#main").hide();
 }
 
+function getRegInfo(){
+	userName = $("input#archivistname").val();
+	description = $("input#description").val();
+}
+
 
 function setReadyState(){
 	$("div#registration").hide();
 	$("div#main").show();
+	$("div#controls").show();
+	getRegInfo();
+	
 $('div#saveState ').css("visibility","hidden");
 $('div#saveState ').css("display","none");
 $('div#recordingState ').css("visibility","hidden");
