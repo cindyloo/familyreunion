@@ -1,6 +1,6 @@
 var userName;
 var description;
-
+var storyURL;
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#main").hide();
@@ -9,13 +9,17 @@ function setRegistrationState(){
 function getRegInfo(){
 	userName = $("input#archivistname").val();
 	description = $("input#description").val();
+	storyURL = $("input#urlLink").val();
+	
+	$("source#FFYouTube").attr("src",storyURL);
 }
+
+
 
 
 function setReadyState(){
 	$("div#registration").hide();
 	$("div#main").show();
-	$("div#controls").show();
 	getRegInfo();
 	
 $('div#saveState ').css("visibility","hidden");

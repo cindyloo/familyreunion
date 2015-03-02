@@ -15,11 +15,11 @@
     <!-- Bootstrap theme -->
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
         
-        
+   <link rel="stylesheet" href="mediaelementplayer.css" />     
     <script src="js/bootstrap.js"></script>
     <script src="js/jquery-2.1.3.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    
+    <script src="mediaelement-and-player.js"></script>
     <script src="js/audiodisplay.js"></script>
     <script src="js/recorderjs/recorder.js"></script>
     <script src="js/main.js"></script>
@@ -57,17 +57,19 @@
 				<input id="archivistname" type="text" value="Enter Your Name"></input>
 				<label>Description:</label>
 				<input type="textarea" value="Enter Description"></input>
+				<label>Video link:</label>
+				<input id="urlLink" type="text" value="Copy Youtube URL here"></input>
+				<br/>
 				<input type="submit" onclick="setReadyState();" value="Next"></input>
+				
 			</div>
-
-
   			<div class="inner cover">
 
              <div id="main">
 
-      			<video class="v" autobuffer controls>
-             		<source src="assets/bestofbarry_final.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
-					<source src="assets/dad_5min.ogv" type='video/ogg; codecs="theora, vorbis"'> 
+      			<video width="640" height="360" id="player1" preload="none">
+             		<source id="FFYouTube" src="" type="video/youtube"> 
+					 
 				</video>
             
            
