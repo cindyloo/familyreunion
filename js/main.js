@@ -58,15 +58,22 @@ function toggleRecording( e ) {
          mePlayer.pause();
         audioRecorder.stop();
         $("div#recordingCircle").removeClass("recording");
-		
+		$("div#recordingCircle").removeClass("notrecording");
+            
         audioRecorder.getBuffers( gotBuffers );
         
     } else {
         // start recording
-        if (!audioRecorder)
+        if (!audioRecorder){
+            mePlayer.pause();
+            $("p#recordingStatus").text("Cannot record.  Please enable recording and then refresh the page.");
+            $("div#recordingCircle").addClass("notrecording");
             return;
+        }
         mePlayer.play();
     	e.src = "";
+    	$("div#recordingCircle").removeClass("notrecording");
+            
         $("div#recordingCircle").addClass("recording");
         audioRecorder.clear();
         audioRecorder.record();

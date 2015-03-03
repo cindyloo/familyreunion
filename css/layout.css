@@ -44,13 +44,12 @@
 	float:left;
 	z-index:10;}
 	
-	#recordingCircle { 
+	.recording { 
 		background: #f00;
-    	width: 40px;
-    	height:40px;
+    	width: 20px;
+    	height:20px;
     	margin-top:-10px;
-
-    border-radius: 50%;
+    	border-radius: 50%;
     }
 	#main{float:left;position:relative;padding-top:90px;padding-left:100px;}
 	#save, #save img { height: 10vh; }
