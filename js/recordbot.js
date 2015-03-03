@@ -22,14 +22,23 @@ function getRegInfo(){
       	 // mediaElement.play();
          	//$(".mejs-overlay-button").css("background","none");
 			setReadyState();
-		
-			$(".mejs-overlay-button").click(function(){
-				toggleRecording(this);
-				setRecordingState(); //this should be a toggle/mode too
+			$(".mejs-overlay-button").unbind('click');
+			$(".mejs-overlay-button").click(function(e){
+				setRecordingState();
+				if (toggleRecording(this) == -1){
+					mePlayer.options.clickToPlayPause = false; //only way to not start movie if audio fails
+					e.preventDefault();
+					}
+				else{
+					mePlayer.options.clickToPlayPause = true;
+					mePlayer.play();
+					mePlayer.setCurrentTime(0);
+					 //this should be a toggle/mode too
+				}
 			});
 		},
-		error: function(){
-		
+		error: function(e){
+			console.log("error");
 		}
     });
 	
@@ -52,6 +61,9 @@ $('div#readyState ').css("visibility","visible");
 $('div#readyState ').css("display","flex");
 $('div#savedState').css("visibility","hidden");
 $('div#savedState').css("display","none");
+
+
+
 }
 
 function setRecordingState(){
@@ -84,6 +96,8 @@ $('div#saveState').css("visibility","hidden");
 $('div#saveState').css("display","none");
 $('div#savedState').css("visibility","visible");
 $('div#savedState').css("display","flex");
+mePlayer.setCurrentTime(0);
+
 }
 
 

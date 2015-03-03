@@ -48,11 +48,11 @@ function gotBuffers( buffers ) {
 }
 
 function doneEncoding( blob ) {
-    Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+    Recorder.setupDownload( blob, userName + "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
     recIndex++;
 }
 
-function toggleRecording( e ) {
+function toggleRecording( e )  {
     if ($("div#recordingCircle").hasClass("recording")) {
         // stop playing and stop recording
          mePlayer.pause();
@@ -66,15 +66,15 @@ function toggleRecording( e ) {
         // start recording
         if (!audioRecorder){
             mePlayer.pause();
-            $("p#recordingStatus").text("Cannot record.  Please enable recording and then refresh the page.");
+            $("p#recordingStatus").text("Cannot record.  Please enable recording at the top of this page.");
             $("div#recordingCircle").addClass("notrecording");
-            return;
+            return -1;
         }
         mePlayer.play();
     	e.src = "";
-    	$("div#recordingCircle").removeClass("notrecording");
-            
+    	$("div#recordingCircle").removeClass("notrecording");            
         $("div#recordingCircle").addClass("recording");
+        $("p#recordingStatus").text("Stop Recording...");
         audioRecorder.clear();
         audioRecorder.record();
         
