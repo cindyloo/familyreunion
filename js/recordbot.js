@@ -1,7 +1,7 @@
 var userName;
 var description;
 var storyURL;
-
+var mePlayer;
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#main").hide();
@@ -14,19 +14,18 @@ function getRegInfo(){
 	
 	$("source#FFYouTube").attr("src",storyURL);
 	var vplayer= $("#theplayer");	
-	var mePlayer = new MediaElementPlayer("#theplayer",{
+	mePlayer = new MediaElementPlayer("#theplayer",{
 	
 		success: function (mediaElement, domObject) { 
 	
        	 // call the play method
       	 // mediaElement.play();
-         	$(".mejs-overlay-button").css("background","none");
-			var customButton = $(".mejs-overlay-button");
+         	//$(".mejs-overlay-button").css("background","none");
 			setReadyState();
 		
 			$(".mejs-overlay-button").click(function(){
 				toggleRecording(this);
-				setRecordingState();
+				setRecordingState(); //this should be a toggle/mode too
 			});
 		},
 		error: function(){

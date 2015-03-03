@@ -48,27 +48,29 @@ function gotBuffers( buffers ) {
 }
 
 function doneEncoding( blob ) {
-    Recorder.setupDownload( blob, userName + "Recording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+    Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
     recIndex++;
 }
 
 function toggleRecording( e ) {
     if ($("div#recordingCircle").hasClass("recording")) {
-        // stop recording
+        // stop playing and stop recording
+         mePlayer.pause();
         audioRecorder.stop();
         $("div#recordingCircle").removeClass("recording");
 		
         audioRecorder.getBuffers( gotBuffers );
-         video.pause();
+        
     } else {
         // start recording
         if (!audioRecorder)
             return;
+        mePlayer.play();
     	e.src = "";
         $("div#recordingCircle").addClass("recording");
         audioRecorder.clear();
         audioRecorder.record();
-        video.play();
+        
     }
 }
 

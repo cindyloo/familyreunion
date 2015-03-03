@@ -1,7 +1,8 @@
 
 	html { overflow: hidden; }
 	body { 
-		font: 14pt Arial, sans-serif; 
+			font-family: 'Satisfy', serif;
+	font-size: 18px; 
 		background: lightgrey;
 		display: flex;
 		flex-direction: column;
@@ -9,6 +10,7 @@
 		width: 100%;
 		margin: 0 0;
 	}
+	
 	canvas { 
 		opacity:.5;
 		display: inline-block; 
@@ -21,8 +23,8 @@
 		z-index:10;
 		float:left;
 		position:absolute;
-		margin-left:40%;
-		margin-top:25%;
+		margin-left:33%;
+		margin-top:28%;
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-around;
@@ -32,6 +34,12 @@
 	
 		
     }
+    .customText, .customText * {
+	font-family: 'Satisfy', serif;
+	font-size: 18px;
+	color: white;
+}
+    
     #record{position:absolute;
 	float:left;
 	z-index:10;}

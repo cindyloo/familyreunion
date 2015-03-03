@@ -14,7 +14,7 @@
      <link href="css/layout.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        
+<link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>        
 <link rel="stylesheet" href="build/mediaelementplayer.css" />   
     <script src="js/bootstrap.js"></script>
     <script src="js/jquery-2.1.3.js"></script>
@@ -54,7 +54,7 @@
 
         
 
-			<div id="registration">
+			<div id="registration" class="customText">
 			<h2>
 				<label>Name:</label>
 				<input id="archivistname" type="text" value="Enter Your Name"></input>
@@ -89,19 +89,18 @@
 				<div id="readyState">
 					<p id="play">Play Movie and Record Audio</p>
 				
-					</div>	
-				</div>
+				</div>	
+				
 				<div id="recordingState">
 					<p id="recording">Recording...</p>
 					<div id="recordingCircle" onclick="toggleRecording(this);setSaveState();">
 					</div>	
 				</div>
 				<div id="saveState">
-					<p id="saveit">Save Recording or Start Over?</p>
 					<div>
 					<a id="save" href="#">
-					<img src="assets/save.png" onclick="saveAudio();setSavedState();"></a>
-					<a href="#" onclick="setReadyState();">Do Over</a>
+					<img src="assets/save.svg" onclick="saveAudio();setSavedState();"></a>
+					<a href="#" onclick="setReadyState();">Start Over</a>
 					</div>
 				</div>
 				
