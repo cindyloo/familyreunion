@@ -18,16 +18,17 @@ $("#submit").click(function(e){
  var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
 
 var positionRef = new Firebase("https://vivid-torch-484.firebaseio.com/videoPosition"); 
- var theVideo = document.getElementById("theVideo");
 
-	theVideo.ontimeupdate = function(){
- 	firebase.set({videoPosition: theVideo.currentTime} );
+	var videoPlayer = $("#theVideo")[0];
+	
+	videoPlayer.ontimeupdate = function(){
+ 	firebase.set({videoPosition: videoPlayer.currentTime} );
  	console.log("That's a time update");
  }
 
  positionRef.on('value', function(dataSnapshot){
 
- 	console.log("the dataSnapshot is: " + dataSnapshot);
+ 	console.log("the dataSnapshot is: " + dataSnapshot.val());
  	console.log("recorded a change in video position");
- 	theVideo.currentTime = dataSnapshot.D.A;
+ 	videoPlayer.currentTime = dataSnapshot.D.A;
  });

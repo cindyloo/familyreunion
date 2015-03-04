@@ -11,18 +11,19 @@ function getRegInfo(){
 	userName = $("input#archivistname").val();
 	description = $("input#description").val();
 	storyURL = $("input#urlLink").val();
-	
+	debugger;
 	$("source#FFYouTube").attr("src",storyURL);
 	var vplayer= $("#theplayer");	
 	mePlayer = new MediaElementPlayer("#theplayer",{
-	
+		timerRate: 1000,
 		success: function (mediaElement, domObject) { 
-	
+		
        	 // call the play method
       	 // mediaElement.play();
          	//$(".mejs-overlay-button").css("background","none");
 			setReadyState();
 			$(".mejs-overlay-button").unbind('click');
+
 			$(".mejs-overlay-button").click(function(e){
 				setRecordingState();
 				if (toggleRecording(this) == -1){
@@ -32,20 +33,40 @@ function getRegInfo(){
 				else{
 					mePlayer.options.clickToPlayPause = true;
 					mePlayer.play();
-					mePlayer.setCurrentTime(0);
+					// mePlayer.setCurrentTime(0);
 					 //this should be a toggle/mode too
 				}
 			});
+			//firebase video syncing
+			var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
+
+			var positionRef = new Firebase("https://vivid-torch-484.firebaseio.com/videoPosition"); 
+			
+			mediaElement.addEventListener("timeupdate", function(){
+				console.log("that's a time update!!!");
+				firebase.set({videoPosition: mediaElement.currentTime})
+			 }); 
+
+			
+			positionRef.on('value', function(dataSnapshot){
+
+			 	console.log("the dataSnapshot is: " + dataSnapshot.val());
+			 	console.log("recorded a change in video position");
+
+			 	mePlayer.setCurrentTime(dataSnapshot.val());
+
+			 });	
+
+
 		},
 		error: function(e){
 			console.log("error");
-		}
-    });
-	
-	
+		} 
+	});
 }
-
-
+    
+	
+	
 
 
 function setReadyState(){
@@ -61,8 +82,6 @@ $('div#readyState ').css("visibility","visible");
 $('div#readyState ').css("display","flex");
 $('div#savedState').css("visibility","hidden");
 $('div#savedState').css("display","none");
-
-
 
 }
 
@@ -96,7 +115,7 @@ $('div#saveState').css("visibility","hidden");
 $('div#saveState').css("display","none");
 $('div#savedState').css("visibility","visible");
 $('div#savedState').css("display","flex");
-mePlayer.setCurrentTime(0);
+// mePlayer.setCurrentTime(0);
 
 }
 
@@ -106,8 +125,6 @@ $( document ).ready(function() {
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
-
-
-
-	
 });
+
+
