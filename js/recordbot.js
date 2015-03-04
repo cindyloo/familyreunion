@@ -2,6 +2,7 @@ var userName;
 var description;
 var storyURL;
 var mePlayer;
+var blobWAV;
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#main").hide();
@@ -103,8 +104,26 @@ $('div#readyState').css("visibility","hidden");
 $('div#readyState').css("display","none");
 $('div#saveState').css("visibility","visible");
 $('div#saveState').css("display","flex");
+
+    var link = document.getElementById("save");
+    var fname = link.download;
+    
+
+
 }
 
+function upload(blob) {
+  var xhr=new XMLHttpRequest();
+  xhr.onload=function(e) {
+      if(this.readyState === 4) {
+          console.log("Server returned: ",e.target.responseText);
+      }
+  };
+  var fd=new FormData();
+  fd.append(fname,blob);
+  xhr.open("POST","http://pastportinteractive.com/storybot/uploadaudio.php",true);
+  xhr.send(fd);
+}
 
 function setSavedState(){
 $('div#recordingState').css("visibility","hidden");
@@ -116,6 +135,8 @@ $('div#saveState').css("display","none");
 $('div#savedState').css("visibility","visible");
 $('div#savedState').css("display","flex");
 // mePlayer.setCurrentTime(0);
+
+	upload(blobWAV);
 
 }
 
