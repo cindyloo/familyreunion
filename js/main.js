@@ -155,7 +155,7 @@ function gotStream(stream) {
     realAudioInput = audioContext.createMediaStreamSource(stream);
     audioInput = realAudioInput;
     audioInput.connect(inputPoint);
-
+ 
 //    audioInput = convertToMono( input );
 
     analyserNode = audioContext.createAnalyser();
