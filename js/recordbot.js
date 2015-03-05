@@ -12,7 +12,7 @@ function getRegInfo(){
 	userName = $("input#archivistname").val();
 	description = $("input#description").val();
 	storyURL = $("input#urlLink").val();
-	debugger;
+
 	$("source#FFYouTube").attr("src",storyURL);
 	var vplayer= $("#theplayer");	
 	mePlayer = new MediaElementPlayer("#theplayer",{
@@ -53,8 +53,12 @@ function getRegInfo(){
 
 			 	console.log("the dataSnapshot is: " + dataSnapshot.val());
 			 	console.log("recorded a change in video position");
-
-			 	mePlayer.setCurrentTime(dataSnapshot.val());
+			 	console.log("the video player's time is: " + mediaElement.currentTime);
+			 	if (Math.abs(dataSnapshot.val() - mediaElement.currentTime)) {
+			 		console.log("the difference is: " + Math.abs(dataSnapshot.val() - mediaElement.currentTime));
+			 		mePlayer.setCurrentTime(dataSnapshot.val());	
+			 	};
+			 	
 
 			 });	
 
