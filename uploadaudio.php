@@ -52,9 +52,11 @@ if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
 	$filename = $_POST['filename'];
 	$username = $_POST['username'];
 	$filename = preg_replace('/[\s]/', '_', $filename); // replace spaces with _
+	$username = preg_replace('/[\s]/', '_', $username); // replace spaces with _
 	$filename = preg_replace('/[^A-Za-z0-9_]/', '', $filename); //remove non-alphanumeric or _
+	$username = preg_replace('/[^A-Za-z0-9_]/', '', $username); //remove non-alphanumeric or _
     $filename = str_pad(strval($vid),2,"0",STR_PAD_LEFT) . '-' . $filename;
-    $path = './assets/audio/uploaded/'. $username . '//' . $filename;
+    $path = './assets/audio/uploaded/'. $filename;
     move_uploaded_file($_FILES['file']['tmp_name'], $path);
     // call back
     die(json_encode(array(
