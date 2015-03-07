@@ -3,6 +3,23 @@ var description;
 var storyURL;
 var mePlayer;
 var blobWAV;
+
+best-of-barry-1-74398
+
+http://best-of-barry-937r78re90we78.firebaseio.com
+var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
+
+//facebook Oauth
+firebase.authWithOAuthPopup("facebook", function(error, authData) {
+  if (error) {
+    console.log("Login Failed!", error);
+  } else {
+    console.log("Authenticated successfully with payload:", authData);
+
+  }
+});
+
+
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#main").hide();
@@ -39,7 +56,7 @@ function getRegInfo(){
 				}
 			});
 			//firebase video syncing
-			var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
+			
 
 			var positionRef = new Firebase("https://vivid-torch-484.firebaseio.com/videoPosition"); 
 			
@@ -177,5 +194,7 @@ $( document ).ready(function() {
 			$(this).toggle("waitslidein");
 	});
 });
+
+
 
 
