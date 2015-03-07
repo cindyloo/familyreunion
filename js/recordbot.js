@@ -40,16 +40,16 @@ function setupFirebaseURL(){
 		else{
 			firebasekey = userData.uid;
 			console.log("Success uuid: ", userData.uid);
-			userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length );
+			debugger;
+			userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
 			firebaseURL =  BASEURL+ userId ;
 			
 			var users =firebase.child("users");
 	users.set({
 		id:userId,
 		name:userName,
-		sessionKey:firebaseURL,
+		sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
 		storyURL:storyURL
-	
 	
 	});
 	
@@ -105,12 +105,12 @@ function getRegInfo(){
 
 			
 			mediaElement.addEventListener("timeupdate", function(){
-				console.log("that's a time update!!!");
+
 				firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 
 			mediaElement.addEventListener("seeked", function(){
-				console.log("player scrubbed");
+
 				//firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 			
@@ -140,9 +140,6 @@ function getRegInfo(){
 }
     
 	
-	
-
-
 function setReadyState(){
 	$("div#registration").hide();
 	$("div#main").show();
