@@ -1,15 +1,12 @@
 var userName;
+var userId;
 var description;
 var storyURL;
 var mePlayer;
 var blobWAV;
 
-best-of-barry-1-74398
-
-http://best-of-barry-937r78re90we78.firebaseio.com
 var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
 
-//facebook Oauth
 firebase.authWithOAuthPopup("facebook", function(error, authData) {
   if (error) {
     console.log("Login Failed!", error);
@@ -19,16 +16,62 @@ firebase.authWithOAuthPopup("facebook", function(error, authData) {
   }
 });
 
+var firebase ;
+var firebaseKey;
+var firebaseURL;
+var BASEURL = "https://vivid-torch-484.firebaseio.com/";
+
+function initHostState(){
+	$("div#hostreg").show();
+	$("div#registration").hide();
+}
+function setupFirebaseURL(){
+	userName = $("input#archivistname").val();
+		description = $("input#description").val();
+	storyURL = $("input#urlLink").val();
+	firebase= new Firebase(BASEURL);
+	firebase.createUser({
+		email:$("#hostemail").val(),
+		password:"password"
+		
+	}, function (error, userData){
+		if(error)
+			console.log("Error creating user",error);
+		else{
+			firebasekey = userData.uid;
+			console.log("Success uuid: ", userData.uid);
+			userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length );
+			firebaseURL =  BASEURL+ userId ;
+			
+			var users =firebase.child("users");
+	users.set({
+		id:userId,
+		name:userName,
+		sessionKey:firebaseURL,
+		storyURL:storyURL
+	
+	
+	});
+	
+			}
+	});
+	
+	
+		debugger;
+	setRegistrationState();
+}
+
+
 
 function setRegistrationState(){
 	$("div#registration").show();
+	$("div#hostreg").hide();
 	$("div#main").hide();
 }
 
 function getRegInfo(){
-	userName = $("input#archivistname").val();
-	description = $("input#description").val();
-	storyURL = $("input#urlLink").val();
+	
+
 
 	$("source#FFYouTube").attr("src",storyURL);
 	var vplayer= $("#theplayer");	
@@ -56,15 +99,20 @@ function getRegInfo(){
 				}
 			});
 			//firebase video syncing
-			
 
-			var positionRef = new Firebase("https://vivid-torch-484.firebaseio.com/videoPosition"); 
+			var firebase = new Firebase(firebaseURL);
+			var positionRef = new Firebase(firebaseURL +"/videoPosition"); 
+
 			
 			mediaElement.addEventListener("timeupdate", function(){
 				console.log("that's a time update!!!");
 				firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 
+			mediaElement.addEventListener("seeked", function(){
+				console.log("player scrubbed");
+				//firebase.set({videoPosition: mediaElement.currentTime})
+			 }); 
 			
 			positionRef.on('value', function(dataSnapshot){
 
@@ -83,7 +131,11 @@ function getRegInfo(){
 		},
 		error: function(e){
 			console.log("error");
-		} 
+		},
+		
+		seeked: function(e){
+			console.log("seeking");
+		}
 	});
 }
     
@@ -189,7 +241,7 @@ $('div#savedState').css("display","flex");
 
 
 $( document ).ready(function() {
-	setRegistrationState();
+	initHostState();
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
