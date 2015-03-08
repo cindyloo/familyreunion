@@ -29,11 +29,11 @@ function setupFirebaseURL(){
 	}, function (error, userData){
 			if(error){
 				console.log("Error creating user",error);
+				alert("Error:\n" + error.message);
 			}
 			else{
 				firebasekey = userData.uid;
 				console.log("Success uuid: ", userData.uid);
-				debugger;
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
 				firebaseURL =  BASEURL+ userId ;
 				
@@ -47,8 +47,6 @@ function setupFirebaseURL(){
 			}
 		});
 	
-	
-		debugger;
 	setRegistrationState();
 }
 
@@ -91,7 +89,7 @@ function getRegInfo(){
 			//firebase video syncing
 
 
-			var positionRef = new Firebase(firebaseURL +"/videoPosition"); 
+			var positionRef = new Firebase(firebaseURL +"videoPosition"); 
 
 			
 			mediaElement.addEventListener("timeupdate", function(){
