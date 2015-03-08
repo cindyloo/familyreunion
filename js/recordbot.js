@@ -7,14 +7,6 @@ var blobWAV;
 
 var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
 
-firebase.authWithOAuthPopup("facebook", function(error, authData) {
-  if (error) {
-    console.log("Login Failed!", error);
-  } else {
-    console.log("Authenticated successfully with payload:", authData);
-
-  }
-});
 
 var firebase ;
 var firebaseKey;
@@ -35,32 +27,30 @@ function setupFirebaseURL(){
 		password:"password"
 		
 	}, function (error, userData){
-		if(error)
-			console.log("Error creating user",error);
-		else{
-			firebasekey = userData.uid;
-			console.log("Success uuid: ", userData.uid);
-			debugger;
-			userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
-			firebaseURL =  BASEURL+ userId ;
-			
-			var users =firebase.child("users");
-	users.set({
-		id:userId,
-		name:userName,
-		sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
-		storyURL:storyURL
-	
-	});
-	
+			if(error){
+				console.log("Error creating user",error);
 			}
-	});
+			else{
+				firebasekey = userData.uid;
+				console.log("Success uuid: ", userData.uid);
+				debugger;
+				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
+				firebaseURL =  BASEURL+ userId ;
+				
+				var users =firebase.child("users");
+				users.set({
+					id:userId,
+					name:userName,
+					sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
+					storyURL:storyURL
+				});
+			}
+		});
 	
 	
 		debugger;
 	setRegistrationState();
 }
-
 
 
 function setRegistrationState(){
@@ -78,7 +68,7 @@ function getRegInfo(){
 	mePlayer = new MediaElementPlayer("#theplayer",{
 		timerRate: 1000,
 		success: function (mediaElement, domObject) { 
-		
+		console.log("video creation success");
        	 // call the play method
       	 // mediaElement.play();
          	//$(".mejs-overlay-button").css("background","none");
@@ -100,7 +90,7 @@ function getRegInfo(){
 			});
 			//firebase video syncing
 
-			var firebase = new Firebase(firebaseURL);
+
 			var positionRef = new Firebase(firebaseURL +"/videoPosition"); 
 
 			
