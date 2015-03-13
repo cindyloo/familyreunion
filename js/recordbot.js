@@ -132,7 +132,7 @@ function sendFamilyEmails(){
 	var list = $("#familyEmails").val().split(";");
 	
 	list.forEach(function(e){
-		emailList.update({email:e, sessionKey:firebaseSessionKey});
+		emailList.push({email:e, sessionKey:firebaseSessionKey});
 	});
 	//noah code
 	//
