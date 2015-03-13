@@ -54,27 +54,38 @@
           </div>
 
         
-	 <div id="hostreg" class="customText">
+	 	 <div id="hostreg" class="customText">
 			<h2>
 				<label>Host Name:</label>
-				<input id="archivistname" type="text" placeholder="Enter Your Name" onclick="this.select()"></input>
+				<input id="archivistname" type="text" placeholder="Enter Your Name" ></input>
 				<label>Archive Description:</label>
-				<input type="textarea" height="100" placeholder="Enter Description" onclick="this.select()"></input>
+				<textarea id="description" name="description" rows="10" cols="50" placeholder="Enter Description"></textarea>
 				<label>Video link:</label>
-				<input id="hosturlLink" type="text" onclick="this.select()"></input>
+				<input id="hosturlLink" type="text"></input>
 				<label>Email:</label>
-				<input id="hostemail" type="text" placeholder="Enter Your Name" onclick="this.select()"></input>
-				
-				
+				<input id="hostemail" type="text" placeholder="Enter Your Name"></input>
+			
 				<input type="submit" onclick="setupFirebaseURL();" value="Next"></input>
 				
 			</div>
-			<div id="registration" class="customText">
+			
+			<div id="hostsendlink" class="customText">
+			<h2>
+				<label>Enter email addresses here:</label>
+				<textarea id="familyEmails" type="text" placeholder="Comma delimited email list"></textarea>
+				<label>Email text:</label>
+				<input id="hosturlLink" type="text"></input>
+				
+			
+				<input type="submit" onclick="setupFamilyEmails();" value="Next"></input>
+				
+			</div>
+			<div id="familyRegistration" class="customText">
 			<h2>
 				<label>Name:</label>
 				<input id="archivistname" type="text" value="Enter Your Name" placeholder="Enter Your Name"></input>
 				<label>Description:</label>
-				<input type="textarea" value="Relation to <Archivist" placeholder="Enter Description"></input>
+				<input type="textarea" value="Relation to Sender" placeholder="Relation to Sender"></input>
 
 				<br/>
 				<input type="submit" onclick="setReadyState();" value="Next"></input>
@@ -85,11 +96,9 @@
              <div id="main">
 
       			<video width="640" height="360" id="theplayer" preload="none">
-             		<source id="FFYouTube" src="http://youtu.be/R3AeW-c69og" type="video/youtube"> 
-					 
+             		<source id="FFYouTube" src="http://youtu.be/R3AeW-c69og" type="video/youtube"> 				 
 				</video>
-            
-           
+        
         
 			<div id="viz" >
 				<div>

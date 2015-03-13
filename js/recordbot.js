@@ -1,3 +1,4 @@
+
 var userName, 
 	userId,
 	description,
@@ -7,12 +8,30 @@ var userName,
 	firebase = new Firebase("https://vivid-torch-484.firebaseio.com/"),
 	firebaseKey,
 	firebaseURL,
+	firebaseSessionKey,
 	BASEURL = "https://vivid-torch-484.firebaseio.com/";
+
+var userName,
+	userId,
+	description,
+	storyURL;
+var mePlayer;
+var blobWAV;
+var BASEURL = "https://vivid-torch-484.firebaseio.com/";
+
+var firebase = new Firebase(BASEURL),
+	firebaseKey,
+	firebaseURL,
+	firebaseSessionKey;
+	
 
 function initHostState(){
 	$("div#hostreg").show();
-	$("div#registration").hide();
+	$("div#hostsendlink").hide();
+	$("div#familyRegistration").hide();
+	$("div#main").hide();
 }
+
 function setupFirebaseURL(){
 	userName = $("input#archivistname").val();
 	description = $("input#description").val();
@@ -31,28 +50,33 @@ function setupFirebaseURL(){
 				firebasekey = userData.uid;
 				console.log("Success uuid: ", userData.uid);
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
-				debugger;
 				firebaseURL =  BASEURL+ userId ;
+
 				var userIdAsNumber = parseInt(userId);
 				
 				var user = firebase.child("users/" + userId);
 
+				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
 				user.set({
 							name:userName,
 							sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
 							storyURL:storyURL
+
+				
 				});
 			}
 		});
 	
-	setRegistrationState();
+	setRegEmailState();
 }
+
 
 function setRegistrationState(){
 	$("div#registration").show();
 	$("div#hostreg").hide();
 	$("div#main").hide();
 }
+
 
 function getRegInfo(){
 	
@@ -88,12 +112,10 @@ function getRegInfo(){
 
 			
 			mediaElement.addEventListener("timeupdate", function(){
-
 				firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 
 			mediaElement.addEventListener("seeked", function(){
-
 				//firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 			
@@ -106,8 +128,6 @@ function getRegInfo(){
 			 		console.log("the difference is: " + Math.abs(dataSnapshot.val() - mediaElement.currentTime));
 			 		mePlayer.setCurrentTime(dataSnapshot.val());	
 			 	};
-			 	
-
 			 });	
 
 		},
@@ -120,21 +140,43 @@ function getRegInfo(){
 		}
 	});
 }
+
+
     
+function setRegEmailState(){
+	$("div#hostsendlink").show();
+	$("div#familyRegistration").hide();
+	$("div#hostreg").hide();
+	$("div#main").hide();
+}
+function setupFamilyEmails(){
+				var emailArray = $("#familyEmails").val().split(";");
+				
+				var family =firebase.child("family" + userId);
+				family.set({
+					email:emailArray
+				});
+
+}
+
+function setRegistrationState(){
+	$("div#familyRegistration").show();
+	$("div#hostsendlink").hide();
+	$("div#hostreg").hide();
+	$("div#main").hide();
+}
 	
 function setReadyState(){
-	$("div#registration").hide();
+	$("div#familyRegistration").hide();
 	$("div#main").show();
 	getRegInfo();
 	
-$('div#saveState ').css("visibility","hidden");
-$('div#saveState ').css("display","none");
-$('div#recordingState ').css("visibility","hidden");
-$('div#recordingState ').css("display","none");
-$('div#readyState ').css("visibility","visible");
-$('div#readyState ').css("display","flex");
-$('div#savedState').css("visibility","hidden");
-$('div#savedState').css("display","none");
+$('div#saveState ').hide();
+$('div#recordingState ').hide();
+$('div#readyState ').hide();
+$('div#readyState ').hide();
+$('div#savedState').hide();
+$('div#savedState').hide();
 
 }
 
@@ -222,6 +264,10 @@ $( document ).ready(function() {
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
+	$('input','textarea').click(function() {
+		$(this).select();
+	});
+		
 });
 
 

@@ -34,7 +34,7 @@
 	
 		
     }
-    .customText, .customText * {
+    .customText, .customText label {
 	font-family: 'Satisfy', serif;
 	font-size: 18px;
 	color: white;
