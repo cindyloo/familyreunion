@@ -31,16 +31,15 @@ function setupFirebaseURL(){
 				firebasekey = userData.uid;
 				console.log("Success uuid: ", userData.uid);
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
-				debugger;
 				firebaseURL =  BASEURL+ userId ;
 				var userIdAsNumber = parseInt(userId);
 				
 				var user = firebase.child("users/" + userId);
 
 				user.set({
-							name:userName,
-							sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
-							storyURL:storyURL
+					name:userName,
+					sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
+					storyURL:storyURL
 				});
 			}
 		});
@@ -107,7 +106,6 @@ function getRegInfo(){
 			 		mePlayer.setCurrentTime(dataSnapshot.val());	
 			 	};
 			 	
-
 			 });	
 
 		},
@@ -223,7 +221,5 @@ $( document ).ready(function() {
 			$(this).toggle("waitslidein");
 	});
 });
-
-
 
 
