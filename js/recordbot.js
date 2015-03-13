@@ -1,4 +1,3 @@
-
 var userName, 
 	userId,
 	description,
@@ -11,31 +10,16 @@ var userName,
 	firebaseSessionKey,
 	BASEURL = "https://vivid-torch-484.firebaseio.com/";
 
-var userName,
-	userId,
-	description,
-	storyURL;
-var mePlayer;
-var blobWAV;
-var BASEURL = "https://vivid-torch-484.firebaseio.com/";
-
-var firebase = new Firebase(BASEURL),
-	firebaseKey,
-	firebaseURL,
-	firebaseSessionKey;
-	
-
 function initHostState(){
 	$("div#hostreg").show();
-	$("div#hostsendlink").hide();
 	$("div#familyRegistration").hide();
+	$("div#hostsendlink").hide();
 	$("div#main").hide();
 }
-
 function setupFirebaseURL(){
-	userName = $("input#archivistname").val();
-	description = $("input#description").val();
-	storyURL = $("input#hosturlLink").val();
+	userName = $("#archivistname").val();
+	description = $("#description").val();
+	storyURL = $("#hosturlLink").val();
 	firebase= new Firebase(BASEURL);
 	firebase.createUser({
 		email:$("#hostemail").val(),
@@ -51,32 +35,19 @@ function setupFirebaseURL(){
 				console.log("Success uuid: ", userData.uid);
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
 				firebaseURL =  BASEURL+ userId ;
-
+				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
 				var userIdAsNumber = parseInt(userId);
 				
 				var user = firebase.child("users/" + userId);
 
-				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
 				user.set({
-
 							name:userName,
-							sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
-							storyURL:storyURL
-
-				
-
+							sessionKey:firebaseSessionKey
 				});
 			}
 		});
 	
-	setRegEmailState();
-}
-
-
-function setRegistrationState(){
-	$("div#registration").show();
-	$("div#hostreg").hide();
-	$("div#main").hide();
+	regEmails();
 }
 
 
@@ -114,10 +85,12 @@ function getRegInfo(){
 
 			
 			mediaElement.addEventListener("timeupdate", function(){
+
 				firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 
 			mediaElement.addEventListener("seeked", function(){
+
 				//firebase.set({videoPosition: mediaElement.currentTime})
 			 }); 
 			
@@ -131,6 +104,7 @@ function getRegInfo(){
 			 		mePlayer.setCurrentTime(dataSnapshot.val());	
 			 	};
 
+
 			 });	
 
 		},
@@ -143,47 +117,60 @@ function getRegInfo(){
 		}
 	});
 }
-
-
-    
-function setRegEmailState(){
+function regEmails(){
 	$("div#hostsendlink").show();
-	$("div#familyRegistration").hide();
 	$("div#hostreg").hide();
+	$("div#familyRegistration").hide();
 	$("div#main").hide();
 }
-function setupFamilyEmails(){
-				var emailArray = $("#familyEmails").val().split(";");
+
+function sendFamilyEmails(){
+
+	var userIdAsNumber = parseInt(userId);
 				
-				var family =firebase.child("family" + userId);
+	var emailList = firebase.child("users/" + userId + "/emails/");
+	var list = $("#familyEmails").val().split(";");
+	
+	list.forEach(function(e){
+		emailList.update({email:e, sessionKey:firebaseSessionKey});
+	});
+	//noah code
+	//
+	
+	var family =firebase.child("family" + userId);
 				family.set({
 					email:emailArray
 				});
-				var emailString = "mailto:"+ encodeURI(emailArray) +"?subject="+encodeURI("Family Reunion Video")+"&body="+encodeURI($("#emailBody").val());
-				console.log(emailString);
 
+				//populate fields for user's email
+				var emailString = "mailto:"+ encodeURI(emailArray) +"?subject="+encodeURI("Family Reunion Video")+"&body="+encodeURI($("#emailBody").val()) +"\n " +encodeURIComponent("http://localhost:8080/recordbot.html#");
+				console.log(emailString);
 				window.location = emailString;
+	
+	$("div#hostsendlink").add("p").text("Success sending email");
+
 
 }
 
 function setRegistrationState(){
 	$("div#familyRegistration").show();
-	$("div#hostsendlink").hide();
 	$("div#hostreg").hide();
 	$("div#main").hide();
-}
+}    
 	
 function setReadyState(){
-	$("div#familyRegistration").hide();
+	$("div#registration").hide();
 	$("div#main").show();
 	getRegInfo();
 	
-$('div#saveState ').hide();
-$('div#recordingState ').hide();
-$('div#readyState ').hide();
-$('div#readyState ').hide();
-$('div#savedState').hide();
-$('div#savedState').hide();
+$('div#saveState ').css("visibility","hidden");
+$('div#saveState ').css("display","none");
+$('div#recordingState ').css("visibility","hidden");
+$('div#recordingState ').css("display","none");
+$('div#readyState ').css("visibility","visible");
+$('div#readyState ').css("display","flex");
+$('div#savedState').css("visibility","hidden");
+$('div#savedState').css("display","none");
 
 }
 
@@ -271,10 +258,6 @@ $( document ).ready(function() {
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
-	$('input','textarea').click(function() {
-		$(this).select();
-	});
-		
 });
 
 
