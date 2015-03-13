@@ -7,7 +7,7 @@ var userName,
 	firebase = new Firebase("https://vivid-torch-484.firebaseio.com/"),
 	firebaseKey,
 	firebaseURL,
-	sBASEURL = "https://vivid-torch-484.firebaseio.com/";
+	BASEURL = "https://vivid-torch-484.firebaseio.com/";
 
 function initHostState(){
 	$("div#hostreg").show();
@@ -15,7 +15,7 @@ function initHostState(){
 }
 function setupFirebaseURL(){
 	userName = $("input#archivistname").val();
-		description = $("input#description").val();
+	description = $("input#description").val();
 	storyURL = $("input#hosturlLink").val();
 	firebase= new Firebase(BASEURL);
 	firebase.createUser({
@@ -31,21 +31,22 @@ function setupFirebaseURL(){
 				firebasekey = userData.uid;
 				console.log("Success uuid: ", userData.uid);
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
+				debugger;
 				firebaseURL =  BASEURL+ userId ;
+				var userIdAsNumber = parseInt(userId);
 				
-				var users =firebase.child("users");
-				users.set({
-					id:userId,
-					name:userName,
-					sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
-					storyURL:storyURL
+				var user = firebase.child("users/" + userId);
+
+				user.set({
+							name:userName,
+							sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
+							storyURL:storyURL
 				});
 			}
 		});
 	
 	setRegistrationState();
 }
-
 
 function setRegistrationState(){
 	$("div#registration").show();
@@ -55,8 +56,6 @@ function setRegistrationState(){
 
 function getRegInfo(){
 	
-
-
 	$("source#FFYouTube").attr("src",storyURL);
 	var vplayer= $("#theplayer");	
 	mePlayer = new MediaElementPlayer("#theplayer",{
@@ -157,8 +156,6 @@ $('div#readyState').css("visibility","hidden");
 $('div#readyState').css("display","none");
 $('div#saveState').css("visibility","visible");
 $('div#saveState').css("display","flex");
-
-
 
 
 }
