@@ -7,6 +7,7 @@ var userName,
 	firebase = new Firebase("https://vivid-torch-484.firebaseio.com/"),
 	firebaseKey,
 	firebaseURL,
+	firebaseSessionKey,
 	BASEURL = "https://vivid-torch-484.firebaseio.com/";
 
 function initHostState(){
@@ -33,8 +34,8 @@ function setupFirebaseURL(){
 				firebasekey = userData.uid;
 				console.log("Success uuid: ", userData.uid);
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
-				debugger;
 				firebaseURL =  BASEURL+ userId ;
+				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
 				var userIdAsNumber = parseInt(userId);
 				
 				var user = firebase.child("users/" + userId);
@@ -42,14 +43,8 @@ function setupFirebaseURL(){
 				user.set({
 
 							name:userName,
-							sessionKey:firebaseURL + "#" + Date.now().toString().slice(0,9),
-							storyURL:storyURL
-<<<<<<< Updated upstream
+							sessionKey:firebaseSessionKey
 
-				
-
-=======
->>>>>>> Stashed changes
 				});
 			}
 		});
@@ -110,10 +105,7 @@ function getRegInfo(){
 			 		console.log("the difference is: " + Math.abs(dataSnapshot.val() - mediaElement.currentTime));
 			 		mePlayer.setCurrentTime(dataSnapshot.val());	
 			 	};
-<<<<<<< Updated upstream
-=======
-			 	
->>>>>>> Stashed changes
+
 
 			 });	
 
@@ -138,11 +130,11 @@ function sendFamilyEmails(){
 
 	var userIdAsNumber = parseInt(userId);
 				
-	var emailList = firebase.child("users/" + userId + "/emails");
+	var emailList = firebase.child("users/" + userId + "/emails/");
 	var list = $("#familyEmails").val().split(";");
 	
 	list.forEach(function(e){
-		emailList.set({email:e});
+		emailList.update({email:e, sessionKey:firebaseSessionKey});
 	});
 	//noah code
 	//
