@@ -200,6 +200,11 @@ body {
   .masthead-nav {
     float: right;
   }
+
+  div.customText {
+
+    margin-top: 100px;
+  }
 }
 
 

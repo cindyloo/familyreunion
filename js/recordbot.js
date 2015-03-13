@@ -159,6 +159,10 @@ function setupFamilyEmails(){
 				family.set({
 					email:emailArray
 				});
+				var emailString = "mailto:"+ encodeURI(emailArray) +"?subject="+encodeURI("Family Reunion Video")+"&body="+encodeURI($("#emailBody").val());
+				console.log(emailString);
+
+				window.location = emailString;
 
 }
 
