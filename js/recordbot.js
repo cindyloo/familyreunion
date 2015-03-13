@@ -1,17 +1,13 @@
-var userName;
-var userId;
-var description;
-var storyURL;
-var mePlayer;
-var blobWAV;
-
-var firebase = new Firebase("https://vivid-torch-484.firebaseio.com/");
-
-
-var firebase ;
-var firebaseKey;
-var firebaseURL;
-var BASEURL = "https://vivid-torch-484.firebaseio.com/";
+var userName, 
+	userId,
+	description,
+	storyURL,
+	mePlayer,
+	blobWAV,
+	firebase = new Firebase("https://vivid-torch-484.firebaseio.com/"),
+	firebaseKey,
+	firebaseURL,
+	sBASEURL = "https://vivid-torch-484.firebaseio.com/";
 
 function initHostState(){
 	$("div#hostreg").show();
@@ -114,7 +110,6 @@ function getRegInfo(){
 			 	
 
 			 });	
-
 
 		},
 		error: function(e){
