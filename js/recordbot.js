@@ -8,6 +8,7 @@ var userName,
 	firebaseKey,
 	firebaseURL,
 	firebaseSessionKey,
+	firebaseSessionKeyForEmail,
 	BASEURL = "https://vivid-torch-484.firebaseio.com/";
 
 function initHostState(){
@@ -35,6 +36,7 @@ function setupFirebaseURL(){
 				console.log("Success uuid: ", userData.uid);
 				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
 				firebaseURL =  BASEURL+ userId ;
+				firebaseSessionKeyForEmail = userId + "#/" + Date.now().toString().slice(0,9) + "#" storyURL;
 				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
 				var userIdAsNumber = parseInt(userId);
 				
@@ -137,18 +139,12 @@ function sendFamilyEmails(){
 	//noah code
 	//
 	
-	var family =firebase.child("family" + userId);
-				family.set({
-					email:emailArray
-				});
-
 				//populate fields for user's email
-				var emailString = "mailto:"+ encodeURI(emailArray) +"?subject="+encodeURI("Family Reunion Video")+"&body="+encodeURI($("#emailBody").val()) +"\n " +encodeURIComponent("http://localhost:8080/recordbot.html#");
+				var emailString = "mailto:"+ encodeURI(list) +"?subject="+encodeURI("Family Reunion Video")+"&body="+encodeURI($("#emailBody").val()) +"\n " +encodeURIComponent("http://localhost:8080/recordbot.html#") + encodeURIComponent(firebaseSessionKeyForEmail);
 				console.log(emailString);
 				window.location = emailString;
 	
-	$("div#hostsendlink").add("p").text("Success sending email");
-
+	//$("div#hostsendlink").add("p").text("Success sending email");
 
 }
 
@@ -258,6 +254,13 @@ $( document ).ready(function() {
 	$('div#viz').click(function() {
 			$(this).toggle("waitslidein");
 	});
+
+	//interpret hash values in link
+	var hashValues = window.location.hash.split("#");
+	var user = hashValues[1];
+	var sessionId = hashValues[2];
+	var youtubeLink = hashValues[3];
+
 });
 
 
