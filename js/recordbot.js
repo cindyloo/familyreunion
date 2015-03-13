@@ -16,7 +16,7 @@ function initHostState(){
 function setupFirebaseURL(){
 	userName = $("input#archivistname").val();
 		description = $("input#description").val();
-	storyURL = $("input#urlLink").val();
+	storyURL = $("input#hosturlLink").val();
 	firebase= new Firebase(BASEURL);
 	firebase.createUser({
 		email:$("#hostemail").val(),

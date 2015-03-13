@@ -55,7 +55,7 @@ function doneEncoding( blob ) {
 function toggleRecording( e )  {
     if ($("div#recordingCircle").hasClass("recording")) {
         // stop playing and stop recording
-         mePlayer.pause();
+        mePlayer.pause();
         audioRecorder.stop();
         $("div#recordingCircle").removeClass("recording");
 		$("div#recordingCircle").removeClass("notrecording");
