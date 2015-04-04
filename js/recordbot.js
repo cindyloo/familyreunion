@@ -1,15 +1,17 @@
+
 var userName, 
 	userId,
 	description,
 	storyURL,
 	mePlayer,
 	blobWAV,
-	firebase = new Firebase("https://vivid-torch-484.firebaseio.com/"),
+	firebase = new Firebase(BASEURL),
 	firebaseKey,
 	firebaseURL,
 	firebaseSessionKey,
 	firebaseSessionKeyForEmail,
-	BASEURL = "https://vivid-torch-484.firebaseio.com/";
+	BASEURL = "https://vivid-torch-484.firebaseio.com/",
+	firebaseSessionKey;
 
 function initHostState(){
 	$("div#hostreg").show();
@@ -42,7 +44,9 @@ function setupFirebaseURL(){
 				
 				var user = firebase.child("users/" + userId);
 
-				user.set({
+
+				user.push({
+
 							name:userName,
 							sessionKey:firebaseSessionKey
 				});
