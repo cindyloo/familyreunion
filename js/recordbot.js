@@ -54,7 +54,7 @@ function setupFirebaseURL(){
 				firebaseURL =  BASEURL+ "/users/" + archivistId ;
 				firebaseSessionKeyForEmail = "&id=" + archivistId + "&key=/" + Date.now().toString().slice(0,9) + "&story=" + storyURL;
 				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
-				var userIdAsNumber = parseInt(userId);
+				var userIdAsNumber = parseInt(archivistId);
 				
 				var user = firebase.child("users/" + archivistId);
 
@@ -175,7 +175,13 @@ function sendFamilyEmails(){
 
 }
 
+
+/////////////////////////////
+//ENTRY POINT for FAMILY 
+
+
 function setRegistrationState(){
+
 if (Object.keys(urlParams).length > 0){
 	storyURL = urlParams.story;
 	archivistId = urlParams.id;
@@ -191,10 +197,12 @@ if (Object.keys(urlParams).length > 0){
 	$("div#main").hide();
 	}
 }    
-	
+
+
 function setReadyState(){
 	$("div#main").show();
 	familymemberName = $("#familyname").val();
+	firebaseURL = BASEURL+ "users/" + archivistId ;
 	
 	
 
@@ -214,14 +222,14 @@ function setReadyState(){
 
 	getRegInfo();
 	
-$('div#saveState ').css("visibility","hidden");
-$('div#saveState ').css("display","none");
-$('div#recordingState ').css("visibility","hidden");
-$('div#recordingState ').css("display","none");
-$('div#readyState ').css("visibility","visible");
-$('div#readyState ').css("display","flex");
-$('div#savedState').css("visibility","hidden");
-$('div#savedState').css("display","none");
+	$('div#saveState ').css("visibility","hidden");
+	$('div#saveState ').css("display","none");
+	$('div#recordingState ').css("visibility","hidden");
+	$('div#recordingState ').css("display","none");
+	$('div#readyState ').css("visibility","visible");
+	$('div#readyState ').css("display","flex");
+	$('div#savedState').css("visibility","hidden");
+	$('div#savedState').css("display","none");
 
 }
 
@@ -317,7 +325,8 @@ if (Object.keys(urlParams).length == 0){
 
 	//interpret hash values in link
 	var hashValues = window.location.hash.split("#");
-	var user = hashValues[1];
+	//just FYI
+	var archivist = hashValues[1];
 	var sessionId = hashValues[2];
 	var youtubeLink = hashValues[3];
 
