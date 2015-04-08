@@ -1,8 +1,9 @@
-
-var userName, 
-	userId,
+var 	BASEURL = "https://vivid-torch-484.firebaseio.com/";
+var archivistName, 
+	archivistId,
 	description,
 	storyURL,
+	familymemberName,
 	mePlayer,
 	blobWAV,
 	firebase = new Firebase(BASEURL),
@@ -10,8 +11,21 @@ var userName,
 	firebaseURL,
 	firebaseSessionKey,
 	firebaseSessionKeyForEmail,
-	BASEURL = "https://vivid-torch-484.firebaseio.com/",
 	firebaseSessionKey;
+
+var urlParams;
+
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
 
 function initHostState(){
 	$("div#hostreg").show();
@@ -20,7 +34,7 @@ function initHostState(){
 	$("div#main").hide();
 }
 function setupFirebaseURL(){
-	userName = $("#archivistname").val();
+	archivistNameuser = $("#archivistname").val();
 	description = $("#description").val();
 	storyURL = $("#hosturlLink").val();
 	firebase= new Firebase(BASEURL);
@@ -36,18 +50,19 @@ function setupFirebaseURL(){
 			else{
 				firebasekey = userData.uid;
 				console.log("Success uuid: ", userData.uid);
-				userId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
-				firebaseURL =  BASEURL+ userId ;
-				firebaseSessionKeyForEmail = userId + "#/" + Date.now().toString().slice(0,9) + "#" storyURL;
+				archivistId = userData.uid.slice(userData.uid.lastIndexOf(":") + 1,userData.uid.length);
+				firebaseURL =  BASEURL+ "/users/" + archivistId ;
+				firebaseSessionKeyForEmail = "&id=" + archivistId + "&key=/" + Date.now().toString().slice(0,9) + "&story=" + storyURL;
 				firebaseSessionKey = firebaseURL + "#" + Date.now().toString().slice(0,9);
 				var userIdAsNumber = parseInt(userId);
 				
-				var user = firebase.child("users/" + userId);
+				var user = firebase.child("users/" + archivistId);
 
 
-				user.push({
+				user.set({
 
-							name:userName,
+							name:archivistName,
+							userId:archivistId,
 							sessionKey:firebaseSessionKey
 				});
 			}
@@ -68,7 +83,7 @@ function getRegInfo(){
        	 // call the play method
       	 // mediaElement.play();
          	//$(".mejs-overlay-button").css("background","none");
-			setReadyState();
+			//setReadyState();
 			$(".mejs-overlay-button").unbind('click');
 
 			$(".mejs-overlay-button").click(function(e){
@@ -132,35 +147,71 @@ function regEmails(){
 
 function sendFamilyEmails(){
 
-	var userIdAsNumber = parseInt(userId);
+	var userIdAsNumber = parseInt(archivistId);
 				
-	var emailList = firebase.child("users/" + userId + "/emails/");
+	var emailList = firebase.child("users/" + archivistId + "/emails/");
 	var list = $("#familyEmails").val().split(";");
 	
 	list.forEach(function(e){
-		emailList.push({email:e, sessionKey:firebaseSessionKey});
+		emailList.set({
+		email:e, 
+		sessionKey:firebaseSessionKey,
+		storyURL:storyURL});
 	});
-	//noah code
-	//
+
+
+	$("input#copylink").text(encodeURIComponent("http://www.pastportinteractive.com:8080/recordbot.html#") +
+				encodeURIComponent(firebaseSessionKeyForEmail));
 	
 				//populate fields for user's email
-				var emailString = "mailto:"+ encodeURI(list) +"?subject="+encodeURI("Family Reunion Video")+"&body="+encodeURI($("#emailBody").val()) +"\n " +encodeURIComponent("http://localhost:8080/recordbot.html#") + encodeURIComponent(firebaseSessionKeyForEmail);
+				var emailString = "mailto:"+ encodeURI(list) +"?subject="+encodeURI("Family Reunion Video")+
+				"&body="+encodeURI($("#emailBody").val()) +"\n " +encodeURIComponent("http://www.pastportinteractive.com:8080/recordbot.html#") +
+				encodeURIComponent(firebaseSessionKeyForEmail);
 				console.log(emailString);
 				window.location = emailString;
 	
-	//$("div#hostsendlink").add("p").text("Success sending email");
+	$("div#hostsendlink").add("p").text("Success sending email");
+
 
 }
 
 function setRegistrationState(){
+if (Object.keys(urlParams).length > 0){
+	storyURL = urlParams.story;
+	archivistId = urlParams.id;
+	archivistname = urlParams.id;
+	
+	$("#theplayer source").src=storyURL;
+	$("source#FFYouTube").attr("src",storyURL);
+//divy up urlParams.
 	$("div#familyRegistration").show();
+	$("div#hostsendlink").hide();
+	$("div#main").hide();
 	$("div#hostreg").hide();
 	$("div#main").hide();
+	}
 }    
 	
 function setReadyState(){
-	$("div#registration").hide();
 	$("div#main").show();
+	familymemberName = $("#familyname").val();
+	
+	
+
+    $.ajax({
+      url: "gupshup_snippet.html",
+      context: document.body,
+      success: function(response){
+        $("div#main").prepend(response);
+      }
+    });
+
+	$("label#welcome").text("Welcome " + familymemberName + ". Please wait until " + archivistName + "is ready");
+	$("div#familyRegistration").hide();
+	$("div#registration").hide();
+	$("div#hostsendlink").hide();
+	$("div#hostreg").hide();
+
 	getRegInfo();
 	
 $('div#saveState ').css("visibility","hidden");
@@ -198,11 +249,12 @@ $('div#saveState').css("display","flex");
 function uploadBlob(blob) {
     
  var link = document.getElementById("save");
-    var fname = link.download;
-     var data = new FormData();
-      data.append('file', blob);
-      data.append('filename',fname);
-		data.append('username',userName);
+    	var fname = link.download;
+     	var data = new FormData();
+      	data.append('file', blob);
+      	data.append('filename',fname);
+		data.append('archname',archivistName);
+		data.append('famname',archivistName);
 		data.append('tmp-name','test.txt');
 
       $.ajax({
@@ -213,7 +265,7 @@ function uploadBlob(blob) {
         processData: false,
         success: function(data) {
           console.log("Success uploading!" + data);
-          },    
+        },    
         error: function(event) {
           console.log("Failed to upload." + event);
         }
@@ -224,17 +276,17 @@ function upload(blob) {
     var link = document.getElementById("save");
     var fname = link.download;
     
-  var xhr=new XMLHttpRequest();
-  xhr.onload=function(e) {
+  	var xhr=new XMLHttpRequest();
+  	xhr.onload=function(e) {
  	 xhr.sendAsBinary(evt.target.result);
       if(this.readyState === 4) {
           console.log("Server returned: ",e.target.responseText);
       }
-  };
-  var fd=new FormData();
-  fd.append("data",blob);
-  xhr.open("POST","uploadaudio.php",true);
-  xhr.send(fd);
+  	};
+  	var fd=new FormData();
+  	fd.append("data",blob);
+  	xhr.open("POST","uploadaudio.php",true);
+  	xhr.send(fd);
 }
 
 function setSavedState(){
@@ -254,10 +306,14 @@ $('div#savedState').css("display","flex");
 
 
 $( document ).ready(function() {
+
+//do we have parameters? host state or registration state?
+if (Object.keys(urlParams).length == 0){
 	initHostState();
-	$('div#viz').click(function() {
-			$(this).toggle("waitslidein");
-	});
+}else{
+	setRegistrationState();
+}
+	
 
 	//interpret hash values in link
 	var hashValues = window.location.hash.split("#");

@@ -77,13 +77,15 @@
 				<input id="emailBody" type="text"></input>
 				<input type="submit" onclick="sendFamilyEmails();" value="Next"></input>
 				
+				<label>Or copy this link and send your own email:</label>
+				<input id="copylink" type="text" ></input>
 			</div>
 			<div id="familyRegistration" class="customText">
 			<h2>
 				<label>Name:</label>
-				<input id="archivistname" type="text" value="Enter Your Name" placeholder="Enter Your Name"></input>
+				<input id="familyname" type="text" placeholder="Enter Your Name"></input>
 				<label>Description:</label>
-				<input type="textarea" value="Relation to Sender" placeholder="Relation to Sender"></input>
+				<input type="textarea" placeholder="Relation to Sender"></input>
 
 				<br/>
 				<input type="submit" onclick="setReadyState();" value="Next"></input>
@@ -92,7 +94,6 @@
   			<div class="inner cover">
 
              <div id="main">
-
       			<video width="640" height="360" id="theplayer" preload="none">
              		<source id="FFYouTube" src="http://youtu.be/R3AeW-c69og" type="video/youtube"> 				 
 				</video>
