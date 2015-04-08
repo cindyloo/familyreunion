@@ -8,7 +8,8 @@ if (!console || !console.log) {
 // Ugh, globals.
 var peerc;
 var myUserID;
-var mainRef = new Firebase("https://vivid-torch-484.firebaseio.com/gupshup");
+var mainRef = new Firebase("https://vivid-torch-484.firebaseio.com/users/" + archivistId);
+mainRef = mainRef.child("gupshup");
 var configuration = {'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]}
 $("#incomingCall").modal();
 $("#incomingCall").modal("hide");
