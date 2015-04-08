@@ -200,17 +200,22 @@ if (Object.keys(urlParams).length > 0){
 
 
 function setReadyState(){
+	console.log("hello, ready state");
+
 	$("div#main").show();
 	familymemberName = $("#familyname").val();
 	firebaseURL = BASEURL+ "users/" + archivistId ;
-	
-	
 
     $.ajax({
       url: "gupshup_snippet1.html",
       context: document.body,
       success: function(response){
+      	console.log("found a response! :\n");
+      	debugger;
         $("div#main").prepend(response);
+      },
+      error: function(response){
+      	console.log("oops!" + response);
       }
     });
 

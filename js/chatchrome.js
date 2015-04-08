@@ -29,7 +29,7 @@ function prereqs() {
   var name =  document.getElementById("familyname").value ;//+ Math.floor(Math.random()*100)+1);
 
   // Set username & welcome.
-  document.getElementById("username").innerHTML = name;
+  document.getElementById("username").value = name;
   document.getElementById("welcome").style.display = "block";
 
   myUserID = btoa(name);
