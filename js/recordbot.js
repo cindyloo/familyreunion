@@ -34,7 +34,7 @@ function initHostState(){
 	$("div#main").hide();
 }
 function setupFirebaseURL(){
-	archivistNameuser = $("#archivistname").val();
+	archivistName = $("#archivistname").val();
 	description = $("#description").val();
 	storyURL = $("#hosturlLink").val();
 	firebase= new Firebase(BASEURL);
@@ -102,12 +102,13 @@ function getRegInfo(){
 			//firebase video syncing
 
 
-			var positionRef = new Firebase(firebaseURL +"videoPosition"); 
+			firebase = new Firebase(firebaseURL);
+			var positionRef = firebase.child("videoPosition"); 
 
 			
 			mediaElement.addEventListener("timeupdate", function(){
 
-				firebase.set({videoPosition: mediaElement.currentTime})
+				firebase.update({videoPosition: mediaElement.currentTime})
 			 }); 
 
 			mediaElement.addEventListener("seeked", function(){
