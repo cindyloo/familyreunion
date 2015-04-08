@@ -199,7 +199,7 @@ function setReadyState(){
 	
 
     $.ajax({
-      url: "gupshup_snippet.html",
+      url: "gupshup_snippet1.html",
       context: document.body,
       success: function(response){
         $("div#main").prepend(response);

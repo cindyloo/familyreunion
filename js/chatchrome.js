@@ -9,12 +9,13 @@ if (!console || !console.log) {
 var peerc;
 var myUserID;
 var mainRef = new Firebase("https://vivid-torch-484.firebaseio.com/gupshup");
-
-
+var configuration = {'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]}
 $("#incomingCall").modal();
 $("#incomingCall").modal("hide");
 
 function prereqs() {
+
+  $("#debug").hide();
   if (!navigator.webkitGetUserMedia) {
     error("Sorry, getUserMedia is not available! (Did you set media.navigator.enabled?)");
     return;
@@ -25,15 +26,17 @@ function prereqs() {
   }
 
   // Ask user to login.
-  var name = prompt("Enter your username", "Guest" + Math.floor(Math.random()*100)+1);
+  var name =  document.getElementById("familyname").value ;//+ Math.floor(Math.random()*100)+1);
 
   // Set username & welcome.
   document.getElementById("username").innerHTML = name;
   document.getElementById("welcome").style.display = "block";
 
   myUserID = btoa(name);
+  log("myUserID is " + myUserID);
   var userRef = mainRef.child(myUserID);
   var userSDP = userRef.child("sdp/");
+  var candidateSDP = userRef.child("ice/");
   var userStatus = userRef.child("presence");
 
   userSDP.onDisconnect().set(null);
@@ -75,6 +78,13 @@ function prereqs() {
         incomingAnswer(data.sdp.answer);
         userSDP.set(null);
       }
+
+    }else if (data.ice && data.ice.candidate){
+          if (peerc){
+            log("Adding Ice Candidate" + data.ice.candidate); 
+            peerc.addIceCandidate(new RTCIceCandidate({candidate: data.ice.candidate}));
+          }
+      
     }
   });
 }
@@ -103,6 +113,7 @@ function incomingOffer(offer, fromUser) {
 function incomingAnswer(answer) {
   peerc.setRemoteDescription(new RTCSessionDescription(JSON.parse(answer)), function() {
     log("Call established!");
+    log("received new description: " + answer);
   }, error);
 };
 
@@ -134,9 +145,9 @@ function removeUser(userid) {
 }
 
 // TODO: refactor, this function is almost identical to initiateCall().
-function acceptCall(offer, fromUser) {
+function acceptCall(offer, userid) {
   log("Incoming call with offer " + offer);
-  document.getElementById("main").style.display = "none";
+  document.getElementById("gupmain").style.display = "none";
   document.getElementById("call").style.display = "block";
 
   navigator.webkitGetUserMedia({video:true, audio:false}, function(vs) {
@@ -144,35 +155,20 @@ function acceptCall(offer, fromUser) {
     video.src = (window.URL || window.webkitURL).createObjectURL(vs);
     document.getElementById("localvideo").play();
 
-    
-      var pc = new webkitRTCPeerConnection(null);
-      pc.addStream(vs);
-     pc.onicecandidate = function (evt) {
-       if (evt.candidate) {
-        var candidateStr = evt.candidate.candidate;
-          if (candidateStr.indexOf('tcp') !== -1) {
-            return ;
-          }
-          pc.addIceCandidate(evt.candidate);
-          log('remote? ICE candidate: \n' + evt.candidate.candidate);
-        }   
-      };
+      
+    var pc = new webkitRTCPeerConnection(null);
+      
+   pc.onicecandidate = function  handleIceCandidate( evt) {
+        return handleIceCandidateHandler(evt,userid);
+      }
 
-      pc.onaddstream = function(obj) {
 
-        log("Got onaddstream of type " + obj.type);
-        //if (obj.type == "video") {
-          var video = document.getElementById('remotevideo');
-          window.stream = obj;
-          video.src =  (window.URL || window.webkitURL).createObjectURL(obj.stream);
-          video.play();
-        //} 
-        document.getElementById("dialing").style.display = "none";
-        document.getElementById("hangup").style.display = "block";
-      };
+   pc.addStream(vs); 
+      pc.onaddstream = addStreamHandler;
 
       
 
+      var sdp = JSON.parse(offer).sdp;
       pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)), function() {
         log("setRemoteDescription, creating answer");
         pc.createAnswer(function(answer) {
@@ -180,19 +176,15 @@ function acceptCall(offer, fromUser) {
             // Send answer to remote end.
             log("created Answer and setLocalDescription " + JSON.stringify(answer));
             peerc = pc;
-            var toSend = {
-              type: 'answer',
-              to: fromUser,
-              from: myUserID,
-              answer: JSON.stringify(answer)
-            };
-            var toUser = mainRef.child(toSend.to);
+            
+            var toUser = mainRef.child(userid);
             var toUserSDP = toUser.child("/sdp/");
             toUserSDP.set({
               type: 'answer',
-              to: fromUser,
+              to: userid,
               from: myUserID,
               answer: JSON.stringify(answer)
+              
             });
 
           }, error);
@@ -202,12 +194,50 @@ function acceptCall(offer, fromUser) {
   }, error);
 }
 
+function  handleIceCandidateHandler( evt, userid) {
+       if (evt.candidate) {
+        var candidateStr = evt.candidate.candidate;
+          if (candidateStr.indexOf('tcp') !== -1) {
+            return ;
+          }
+          var candidate = evt.candidate;
+           var toUserSDPCandidate = mainRef.child(userid);
+          var toUserSDP = toUserSDPCandidate.child("/ice/");
+          toUserSDPCandidate.set({
+              ice: {
+                from: myUserID,
+                candidate:evt.candidate.candidate,
+                type: 'candidate',
+              label: evt.candidate.sdpMLineIndex,
+              id: evt.candidate.sdpMid,
+             
+              }
+              
+            });
+ 
+          log('Local ICE candidate: \n' + evt.candidate.candidate);
+        }   
+      };
+
+
+function addStreamHandler(obj) {
+        log("Got onaddstream of type " + obj.stream);
+       // if (obj.type == "video") {
+          var video = document.getElementById('remotevideo');
+          window.stream = obj;
+          video.src =  (window.URL || window.webkitURL).createObjectURL(obj.stream);
+          video.play();
+        //}
+        document.getElementById("dialing").style.display = "none";
+        document.getElementById("hangup").style.display = "block";
+  };
+
 function initiateCall(userid) {
-  document.getElementById("main").style.display = "none";
+  document.getElementById("gupmain").style.display = "none";
   document.getElementById("call").style.display = "block";
 
   navigator.webkitGetUserMedia({video:true,audio:false}, function(vs) {
-    log("source" + vs.src);
+    log("initiate with userid " + userid);
      var video = document.getElementById('localvideo');
     video.src = (window.URL || window.webkitURL).createObjectURL(vs);
     document.getElementById("localvideo").play();
@@ -216,31 +246,16 @@ function initiateCall(userid) {
 
       var pc = new webkitRTCPeerConnection(null);
 
-      pc.onicecandidate = function (evt) {
-       if (evt.candidate) {
-        var candidateStr = evt.candidate.candidate;
-          if (candidateStr.indexOf('tcp') !== -1) {
-            return ;
-          }
-          pc.addIceCandidate(evt.candidate);
-          log('Local ICE candidate: \n' + evt.candidate.candidate);
-        }   
-      };
+      pc.onicecandidate = function  handleIceCandidate( evt) {
+        return handleIceCandidateHandler(evt,userid);
+      }
+
+
 
       pc.addStream(vs);
       
 
-      pc.onaddstream = function(obj) {
-        log("Got onaddstream of type " + obj.stream);
-       // if (obj.type == "video") {
-            var video = document.getElementById('remotevideo');
-          window.stream = obj;
-          video.src =  (window.URL || window.webkitURL).createObjectURL(obj.stream);
-          video.play();
-        //}
-        document.getElementById("dialing").style.display = "none";
-        document.getElementById("hangup").style.display = "block";
-      };
+      pc.onaddstream = addStreamHandler;
 
       pc.createOffer(function(offer) {
         log("Created offer" + JSON.stringify(offer));
@@ -248,13 +263,8 @@ function initiateCall(userid) {
           // Send offer to remote end.
           log("setLocalDescription, sending to remote");
           peerc = pc;
-          var toSend = {
-            type: "offer",
-            to: userid,
-            from: myUserID,
-            offer: JSON.stringify(offer)
-          };
-          var toUser = mainRef.child(toSend.to);
+          
+          var toUser = mainRef.child(userid);
           var toUserSDP = toUser.child("/sdp/");
           toUserSDP.set({
             type: "offer",
@@ -271,7 +281,7 @@ function initiateCall(userid) {
 function endCall() {
   log("Ending call");
   document.getElementById("call").style.display = "none";
-  document.getElementById("main").style.display = "block";
+  document.getElementById("gupmain").style.display = "block";
 
   document.getElementById("localvideo").pause();
   document.getElementById("localaudio").pause();
