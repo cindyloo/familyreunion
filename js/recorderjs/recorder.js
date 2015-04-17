@@ -20,7 +20,7 @@ DEALINGS IN THE SOFTWARE.
 (function(window){
 
   var WORKER_PATH = 'js/recorderjs/recorderWorker.js';
-
+var bIsSpeaking=false;
   var Recorder = function(source, cfg){
     var config = cfg || {};
     var bufferLen = config.bufferLen || 4096;
@@ -42,6 +42,25 @@ DEALINGS IN THE SOFTWARE.
       currCallback;
 
     this.node.onaudioprocess = function(e){
+    
+     /* var inputBuffer = e.inputBuffer;
+  	  var outputBuffer = e.outputBuffer;
+	  var inputData = inputBuffer.getChannelData(0);
+    
+    
+    // Loop through the 4096 samples
+    for (var sample = 0; sample < e.inputBuffer.length; sample+10) {
+    	
+      if (inputData[sample] >= 0.01) //arbitrary threshold
+		bIsSpeaking = true;
+	  else
+	  	bIsSpeaking = false;
+		
+		console.log("anyone speaking?" + bIsSpeaking);
+        
+    }*/
+    
+    
       if (!recording) return;
       worker.postMessage({
         command: 'record',

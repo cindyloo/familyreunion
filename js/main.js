@@ -196,4 +196,4 @@ function initAudio() {
         });
 }
 
-window.addEventListener('load', initAudio );
+

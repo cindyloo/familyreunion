@@ -27,7 +27,8 @@ function prereqs() {
   }
 
   // Ask user to login.
-  var name =  document.getElementById("familyname").value ;//+ Math.floor(Math.random()*100)+1);
+  var name =  document.getElementById("familyname").value ;
+  name += Math.floor(Math.random()*100)+1;  //ensure uniqueness in Firebase
 
   // Set username & welcome.
   document.getElementById("username").value = name;
@@ -66,7 +67,9 @@ function prereqs() {
       appendUser(snapshot.key());
     }
     if (!data.presence) {
+    debugger;
       removeUser(snapshot.key());
+      
     }
 
 
@@ -136,6 +139,8 @@ function appendUser(userid) {
   d.appendChild(a);
   d.appendChild(document.createElement("br"));
   document.getElementById("users").appendChild(d);
+  debugger;
+  document.getElementById("users").removeChild(document.getElementById("empty"));
 }
 
 function removeUser(userid) {
@@ -143,6 +148,17 @@ function removeUser(userid) {
   if (d) {
     document.getElementById("users").removeChild(d);
   }
+}
+function addEmpty() {
+
+	if (!document.getElementById("empty")){
+   		var p = document.createElement("div");
+     	p.setAttribute("id", "empty");
+   		p.innerHTML = "<p> No online users</p>";
+
+    	document.getElementById("users").appendChild(p);
+    }
+
 }
 
 // TODO: refactor, this function is almost identical to initiateCall().
@@ -223,6 +239,7 @@ function  handleIceCandidateHandler( evt, userid) {
 
 function addStreamHandler(obj) {
         log("Got onaddstream of type " + obj.stream);
+
        // if (obj.type == "video") {
           var video = document.getElementById('remotevideo');
           window.stream = obj;
@@ -231,6 +248,7 @@ function addStreamHandler(obj) {
         //}
         document.getElementById("dialing").style.display = "none";
         document.getElementById("hangup").style.display = "block";
+        document.getElementById("viz").style.display = "block";
   };
 
 function initiateCall(userid) {
@@ -242,8 +260,6 @@ function initiateCall(userid) {
      var video = document.getElementById('localvideo');
     video.src = (window.URL || window.webkitURL).createObjectURL(vs);
     document.getElementById("localvideo").play();
-
-    
 
       var pc = new webkitRTCPeerConnection(null);
 
@@ -282,6 +298,7 @@ function initiateCall(userid) {
 function endCall() {
   log("Ending call");
   document.getElementById("call").style.display = "none";
+  document.getElementById("viz").style.display = "none";
   document.getElementById("gupmain").style.display = "block";
 
   document.getElementById("localvideo").pause();

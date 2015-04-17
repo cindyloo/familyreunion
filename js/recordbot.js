@@ -107,14 +107,22 @@ function getRegInfo(){
 
 			
 			mediaElement.addEventListener("timeupdate", function(){
-
-				firebase.update({videoPosition: mediaElement.currentTime})
+				//maybe not needed
+				//firebase.update({videoPosition: mediaElement.currentTime})
 			 }); 
 
 			mediaElement.addEventListener("seeked", function(){
 
-				//firebase.set({videoPosition: mediaElement.currentTime})
-			 }); 
+				firebase.set({videoPosition: mediaElement.currentTime})
+			 });
+			 mediaElement.addEventListener("paused", function(){
+
+				firebase.set({videoPosition: mediaElement.currentTime})
+			 });
+			 mediaElement.addEventListener("play", function(){
+
+				firebase.set({videoPosition: mediaElement.currentTime})
+			 });
 			
 			positionRef.on('value', function(dataSnapshot){
 
@@ -208,12 +216,20 @@ function setReadyState(){
 	firebaseURL = BASEURL+ "users/" + archivistId ;
 
     $.ajax({
-      url: "gupshup_snippet1.html",
+      url: "gupshup_snippet.html",
       context: document.body,
       success: function(response){
       	console.log("found a response! :\n");
-      	debugger;
+      	
         $("div#main").prepend(response);
+        var s = $("<script>");
+  		s.attr("src",'js/chatchrome.js');
+       $("head").append(s);
+        addEmpty();
+        
+        initAudio();
+       
+
       },
       error: function(response){
       	console.log("oops!" + response);
