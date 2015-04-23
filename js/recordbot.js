@@ -220,7 +220,7 @@ function setReadyState(){
       context: document.body,
       success: function(response){
       	console.log("found a response! :\n");
-      	
+      	$("div#gupmain").remove();
         $("div#main").prepend(response);
         var s = $("<script>");
   		s.attr("src",'js/chatchrome.js');
@@ -254,6 +254,12 @@ function setReadyState(){
 	$('div#savedState').css("display","none");
 
 }
+function setSingularState(){
+	$("div#gupmain").hide();
+	setRecordingState();
+	
+}
+
 
 function setRecordingState(){
 $('div#saveState ').css("visibility","hidden");

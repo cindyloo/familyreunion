@@ -11,7 +11,7 @@
     <title>RecorderBot</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     
-     <link href="css/layout.css" rel="stylesheet">
+
     <!-- Bootstrap theme -->
    
 <link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>        
@@ -21,7 +21,7 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css">
-
+     <link href="css/layout.css" rel="stylesheet">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     
@@ -37,69 +37,105 @@
   </head>
   
  <body>
- 	<div class="col-md-12 container">
- 		<div class="row">
- 	<div id="hostreg" class="customText">
- 				<label>Host Name:</label>
- 				<input id="archivistname" type="text" placeholder="Enter Your Name" >
- 				<label>Archive Description:</label>
- 				<textarea id="description" name="description" rows="10" cols="50" placeholder="Enter Description"></textarea>
- 				<label>Video link:</label>
- 				<input id="hosturlLink" type="text">
- 				<label>Email:</label>
- 				<input id="hostemail" type="text" placeholder="Enter Your Name">
- 			
- 				<input type="submit" onclick="setupFirebaseURL();" value="Next">	
- 		</div>	
- 		<div id="hostsendlink" class="customText">
+ 	<div class="container-fluid col-md-12">
+ 
+ 			<div id="hostreg" class="customText row">
+ 				<div class="row">
+ 					<label>Host Name:</label>
+ 				</div>
+ 				<div class="row">
+ 					<input id="archivistname" type="text" placeholder="Enter Your Name" >
+ 				</div>
+ 				<div class="row">
+ 					<label>Archive Description:</label>
+ 				</div>
+ 				<div class="row">
+ 					<textarea id="description" name="description" rows="10" cols="50" placeholder="Enter Description"></textarea>
+ 				</div>
+ 				<div class="row">
+ 					<label>Video link:</label>
+ 				</div>
+ 				<div class="row">
+ 					<input id="hosturlLink" type="text">
+ 				</div>
+ 				<div class="row">
+ 					<label>Email:</label>
+ 				</div>
+ 				<div class="row">
+ 					<input id="hostemail" type="text" placeholder="Enter Your Name">
+ 				</div>
+ 				<div class="row">
+ 					<input type="submit" onclick="setupFirebaseURL();" value="Next">
+ 				</div>
+ 			</div>	
+ 			<div id="hostsendlink" class="customText row">
+
+ 				<div class="row">
+ 					<label>Enter email addresses here:</label>
+ 				</div>
+ 				<div class="row">
+ 					<textarea id="familyEmails" type="text" placeholder="Comma delimited email list"></textarea>
+ 				</div>
+ 				<div class="row">
+ 					<label>Email text:</label>
+ 				</div>
+ 				<div class="row">
+ 					<input id="emailBody" type="text">
+ 				</div>
+ 				<div class="row">
+ 					<input type="submit" onclick="sendFamilyEmails();" value="Next">	
+ 				</div>
+ 				<div class="row">
+ 					<label>Or copy this link and send your own email:</label>
+ 					<input id="copylink" type="text" >
+ 				</div>
+ 			</div>
+ 			<div id="familyRegistration" class="customText row"> 	
+
+ 				<div class="row">
+ 					<label>Name:</label>
+ 				</div>
+ 				<div class="row">
+ 					<input id="familyname" type="text" value="changeme" placeholder="Enter Your Name">
+ 				</div>
+ 				<div class="row">
+ 					<label>Description:</label>
+ 				</div>
+ 				<div class="row">
+ 					<input type="textarea" placeholder="Relation to Sender">	
+ 				</div>
+ 				<div class="row">
+ 					<input type="submit" onclick="setReadyState();" value="Next">
+ 				</div>
+ 			</div>
  	
- 			<label>Enter email addresses here:</label>
- 			<textarea id="familyEmails" type="text" placeholder="Comma delimited email list"></textarea>
- 			<label>Email text:</label>
- 			<input id="emailBody" type="text">
- 			<input type="submit" onclick="sendFamilyEmails();" value="Next">
- 			
- 			<label>Or copy this link and send your own email:</label>
- 			<input id="copylink" type="text" >
- 		</div>
- 		<div id="familyRegistration" class="customText">
  	
- 			<label>Name:</label>
- 			<input id="familyname" type="text" value="changeme" placeholder="Enter Your Name">
- 			<label>Description:</label>
- 			<input type="textarea" placeholder="Relation to Sender">
- 	
- 			<br/>
- 			<input type="submit" onclick="setReadyState();" value="Next">
- 			
- 		</div>
- 	
- 	
- 	        <div id="main" class="col-md-12" >
+ 	   		<div id="main" class="row" >
  	  			<video width="800" height="400" id="theplayer" preload="none">
- 	         		<source id="FFYouTube" src="http://youtu.be/R3AeW-c69og" type="video/youtube"> 				 
+ 	         		<source id="FFYouTube" src="http://www.youtube.com/watch?v=XhtkOSyjMe8" type="video/youtube"> 				 
  				</video>
  				
- 				<div id="controls" class="col-md-4">
- 					<div id="readyState">
- 						<p id="play">Play Movie and Record Audio</p>
+ 			<div id="controls" class="row col-xs-4">
+ 				
+ 				<div id="readyState">
+ 						<label id="play">Play Movie and Record Audio</label>	
+ 				</div>	
  					
+ 				<div id="recordingState" onclick="toggleRecording(this);setSaveState();">
+ 					<label id="recordingStatus">Stop Recording...</label>
+ 					<div id="recordingCircle" >
  					</div>	
+ 				</div>
  					
- 					<div id="recordingState">
- 						<p id="recordingStatus">Stop Recording...</p>
- 						<div id="recordingCircle" onclick="toggleRecording(this);setSaveState();">
- 						</div>	
- 					</div>
- 					<div id="saveState">
+ 				<div id="saveState">
  						<div>
  						<a id="save" href="#" onclick="saveAudio();setSavedState();">Upload or </a>
  						<a href="#" onclick="setReadyState();">Start Over</a>
  						</div>
  					</div>
  					
- 					<div id="savedState">
- 						<p id="sent">Saved and Sent!</p>
+ 				<div id="savedState">
+ 						<label id="sent">Saved and Sent!</p>
  						<a href="#" onclick="setReadyState();">Record Another Story</a>
  					</div>
  				</div>

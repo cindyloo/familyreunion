@@ -8,6 +8,8 @@ if (!console || !console.log) {
 // Ugh, globals.
 var peerc;
 var myUserID;
+var myUserName;
+var connectedToUser;
 var mainRef = new Firebase("https://vivid-torch-484.firebaseio.com/users/" + archivistId);
 mainRef = mainRef.child("gupshup");
 var configuration = {'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]}
@@ -27,14 +29,15 @@ function prereqs() {
   }
 
   // Ask user to login.
-  var name =  document.getElementById("familyname").value ;
-  name += Math.floor(Math.random()*100)+1;  //ensure uniqueness in Firebase
+  myUserName =  document.getElementById("familyname").value ;
+  myUserName += Math.floor(Math.random()*100)+1;  //ensure uniqueness in Firebase
 
   // Set username & welcome.
-  document.getElementById("username").value = name;
-  document.getElementById("welcome").style.display = "block";
+  document.getElementById("username").value = myUserName;
+  document.getElementById("status").style.display = "block";
+  document.getElementById("status").value = "Welcome " + myUserName + "!";
 
-  myUserID = btoa(name);
+  myUserID = btoa(myUserName);
   log("myUserID is " + myUserID);
   var userRef = mainRef.child(myUserID);
   var userSDP = userRef.child("sdp/");
@@ -67,9 +70,7 @@ function prereqs() {
       appendUser(snapshot.key());
     }
     if (!data.presence) {
-    debugger;
       removeUser(snapshot.key());
-      
     }
 
 
@@ -134,12 +135,11 @@ function appendUser(userid) {
   var a = document.createElement("a");
   a.setAttribute("class", "btn btn-block btn-inverse");
   a.setAttribute("onclick", "initiateCall('" + userid + "');");
-  a.innerHTML = "<i class='icon-user icon-white'></i> " + atob(userid);
+  a.innerHTML = "<i class='icon-user'></i> " + atob(userid);
 
   d.appendChild(a);
   d.appendChild(document.createElement("br"));
   document.getElementById("users").appendChild(d);
-  debugger;
   document.getElementById("users").removeChild(document.getElementById("empty"));
 }
 
@@ -164,7 +164,7 @@ function addEmpty() {
 // TODO: refactor, this function is almost identical to initiateCall().
 function acceptCall(offer, userid) {
   log("Incoming call with offer " + offer);
-  document.getElementById("gupmain").style.display = "none";
+  document.getElementById("gup2main").style.display = "block";
   document.getElementById("call").style.display = "block";
 
   navigator.webkitGetUserMedia({video:true, audio:false}, function(vs) {
@@ -181,19 +181,20 @@ function acceptCall(offer, userid) {
 
 
    pc.addStream(vs); 
-      pc.onaddstream = addStreamHandler;
+   pc.onaddstream = addStreamHandler;
 
       
 
-      var sdp = JSON.parse(offer).sdp;
-      pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)), function() {
+   var sdp = JSON.parse(offer).sdp;
+   pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)), function() {
         log("setRemoteDescription, creating answer");
         pc.createAnswer(function(answer) {
           pc.setLocalDescription(answer, function() {
             // Send answer to remote end.
             log("created Answer and setLocalDescription " + JSON.stringify(answer));
             peerc = pc;
-            
+            console.log("connected user is " + userid + " " + atob(userid));
+            connectedToUser = atob(userid);
             var toUser = mainRef.child(userid);
             var toUserSDP = toUser.child("/sdp/");
             toUserSDP.set({
@@ -247,15 +248,17 @@ function addStreamHandler(obj) {
           video.play();
         //}
         document.getElementById("dialing").style.display = "none";
+         $("#status").text("Now connected with " + connectedToUser);
+         document.getElementById("initialView").style.display = "none";
         document.getElementById("hangup").style.display = "block";
         document.getElementById("viz").style.display = "block";
   };
 
 function initiateCall(userid) {
-  document.getElementById("gupmain").style.display = "none";
+  document.getElementById("gup2main").style.display = "block";
   document.getElementById("call").style.display = "block";
 
-  navigator.webkitGetUserMedia({video:true,audio:false}, function(vs) {
+  navigator.webkitGetUserMedia({video:true,audio:true}, function(vs) {
     log("initiate with userid " + userid);
      var video = document.getElementById('localvideo');
     video.src = (window.URL || window.webkitURL).createObjectURL(vs);
@@ -280,7 +283,7 @@ function initiateCall(userid) {
           // Send offer to remote end.
           log("setLocalDescription, sending to remote");
           peerc = pc;
-          
+          connectedToUser = atob(userid);
           var toUser = mainRef.child(userid);
           var toUserSDP = toUser.child("/sdp/");
           toUserSDP.set({
@@ -299,6 +302,7 @@ function endCall() {
   log("Ending call");
   document.getElementById("call").style.display = "none";
   document.getElementById("viz").style.display = "none";
+  $("#status").text("You have disconnected.  Refresh screen to begin a new call.");
   document.getElementById("gupmain").style.display = "block";
 
   document.getElementById("localvideo").pause();
